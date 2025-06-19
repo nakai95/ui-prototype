@@ -1,0 +1,28 @@
+import React from 'react';
+
+import { Navigate } from 'react-router-dom';
+
+import { HTTP_STATUS_CODES } from '@/domain/constants';
+import { WebApiException } from '@/domain/errors';
+
+interface AuthErrorFallbackProps {
+  error: Error;
+}
+
+/**
+ * 認証エラー用のフォールバックコンポーネント
+ */
+export const AuthErrorFallback: React.FC<AuthErrorFallbackProps> = ({
+  error,
+}) => {
+  // 401エラー（認証エラー）の場合はログインページにリダイレクト
+  if (
+    error instanceof WebApiException &&
+    error.statusCode === HTTP_STATUS_CODES.UNAUTHORIZED
+  ) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // その他のエラーの場合は再スロー（上位のError Boundaryで処理）
+  throw error;
+};
