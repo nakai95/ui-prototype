@@ -11,7 +11,7 @@
 - 🧪 **包括的テスト**: Vitest + React Testing Library
 - 🎭 **モックAPI**: MSW による開発時のAPIモック
 - 🎨 **Figma連携**: MCP サーバーによるデザインアセット取得
-- � **レスポンシブデザイン**: モバイル・デスクトップ対応（そんなにできてない）
+- 📱 **レスポンシブデザイン**: モバイル・デスクトップ対応（そんなにできてない）
 
 ## 🛠 技術スタック
 
@@ -154,10 +154,16 @@ pnpm test:coverage
 
 ```json
 {
-  "mcpServers": {
-    "framelink": {
+  "servers": {
+    "Framelink Figma MCP": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@framelink/mcp-server-figma"]
+      "args": [
+        "-y",
+        "figma-developer-mcp",
+        "--figma-api-key=<<your-figma-api-key>>",
+        "--stdio"
+      ]
     }
   }
 }
@@ -169,19 +175,21 @@ Figma の Personal Access Token を環境変数または設定ファイルに設
 
 ### 利用方法
 
-GitHub Copilot で以下の機能が利用できます：
+GitHub Copilot で Figma デザインからコンポーネントを実装：
 
-1. **Figma ファイル情報の取得**
-
-```
-Figma ファイル https://www.figma.com/file/YOUR_FILE_KEY/... の情報を取得してください
-```
-
-2. **画像のダウンロード**
+**使用例プロンプト:**
 
 ```
-このFigmaファイルから、アイコンを src/assets/icons/ にダウンロードしてください
+Figma URL: https://www.figma.com/file/YOUR_FILE_KEY/...
+
+このFigmaデザインを参考に、LoginButtonコンポーネントを実装してください。
+- styled.tsx にスタイル定義をまとめる
+- Material-UIベースで実装
+- レスポンシブ対応
+- Figmaの色・サイズ・余白を反映
 ```
+
+このプロンプトにより、Figma デザインの情報を取得し、適切なスタイルコンポーネントとして実装されると思います。
 
 ### 利用可能なMCP機能
 
@@ -204,15 +212,15 @@ pnpm msw:init
 ### 利用可能なスクリプト
 
 ```bash
-pnpm dev          # 開発サーバー起動
-pnpm build        # プロダクションビルド
-pnpm preview      # ビルド結果をプレビュー
-pnpm test         # テスト実行
-pnpm test:watch   # ウォッチモードでテスト
+pnpm dev           # 開発サーバー起動
+pnpm build         # プロダクションビルド
+pnpm lint          # ESLint実行
+pnpm preview       # ビルド結果をプレビュー
+pnpm test          # テスト実行
+pnpm test:run      # watch モードなしで実行
 pnpm test:coverage # カバレッジ付きテスト
-pnpm lint         # ESLint実行
-pnpm gen:api # OpenAPIからコードとモックを生成
-pnpm msw:init     # MSW Service Worker初期化
+pnpm gen:api       # OpenAPIからコードとモックを生成
+pnpm msw:init      # MSW Service Worker初期化
 ```
 
 ### コード生成 (Orval)
