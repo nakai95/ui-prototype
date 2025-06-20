@@ -19,7 +19,8 @@ export const getCustomAuthAPIMock = () => {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
         'Content-Type': 'application/json',
-        'Set-Cookie': 'session_id=abc123; Path=/; HttpOnly; Max-Age=86400',
+        'Set-Cookie':
+          'session_id=abc123; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict',
       },
     });
   });
@@ -32,7 +33,8 @@ export const getCustomAuthAPIMock = () => {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
         'Content-Type': 'application/json',
-        'Set-Cookie': 'session_id=; Path=/; Max-Age=0',
+        'Set-Cookie':
+          'session_id=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict',
       },
     });
   });
@@ -58,7 +60,8 @@ export const getCustomAuthAPIMock = () => {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
         'Content-Type': 'application/json',
-        'Set-Cookie': 'session_id=abc123; Path=/;  Max-Age=86400',
+        'Set-Cookie':
+          'session_id=abc123; Path=/;  Max-Age=86400; HttpOnly; SameSite=Strict',
       },
     });
   });
