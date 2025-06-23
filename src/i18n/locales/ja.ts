@@ -10,12 +10,11 @@ export const ja = {
   },
   homePage: {
     title: 'ダッシュボード',
-    welcome:
-      'Admin Dashboardへようこそ。こちらがメインのダッシュボードページです。',
+    welcome: 'Dashboardへようこそ。こちらがメインのダッシュボードページです。',
     overview: {
       title: 'システム概要',
       description:
-        'このダッシュボードでは、ファイル管理、ユーザー管理、レポート機能などが利用できます。',
+        'モダンなウェブアプリケーションの構成を作ってみているところです。',
     },
   },
   loginPage: {

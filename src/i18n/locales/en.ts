@@ -13,8 +13,7 @@ export const en = {
     welcome: 'Welcome to Admin Dashboard. This is the main dashboard page.',
     overview: {
       title: 'System Overview',
-      description:
-        'This dashboard provides file management, user management, and reporting features.',
+      description: `I'm playing around with a modern web app setup.`,
     },
   },
   loginPage: {
