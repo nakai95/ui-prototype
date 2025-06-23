@@ -1,26 +1,24 @@
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+
 import { HTTP_STATUS_CODES } from '@/domain/constants';
 import { WebApiException } from '@/domain/errors';
 
 import { checkSessionExpire } from '../sessionErrorHandler';
 
 describe('checkSessionExpire', () => {
-  // window.location.replaceをモック
   const mockReplace = vi.fn();
 
   beforeEach(() => {
-    vi.clearAllMocks(); // 明示的にモックをクリア
-
-    // window.locationのモック
-    Object.defineProperty(window, 'location', {
-      value: {
-        origin: 'http://localhost:3000',
-        replace: mockReplace,
-      },
-      writable: true,
+    // vi.stubGlobal()を使用してより安全にwindow.locationをモック
+    vi.stubGlobal('location', {
+      origin: 'http://localhost:3000',
+      replace: mockReplace,
     });
   });
+
   afterEach(() => {
-    vi.clearAllMocks(); // 明示的にモックをクリア
+    // グローバルモックをクリーンアップ
+    vi.unstubAllGlobals();
   });
 
   test('401エラーの場合、trueを返してログインページにリダイレクトする', () => {
