@@ -30,6 +30,7 @@ export default defineConfig({
       include: ['src/**'],
       exclude: [
         'node_modules/',
+        `src/main.tsx`,
         'src/__fixtures__/**',
         'src/adapters/generated/**',
         'src/adapters/mocks/**',
