@@ -15,7 +15,7 @@
 
 ## 🛠 技術スタック
 
-- **Frontend**: React 18, TypeScript
+- **Frontend**: React 19, TypeScript
 - **UI Framework**: Material-UI (MUI)
 - **Build Tool**: Vite
 - **State Management**: TanStack Query (React Query)
@@ -30,8 +30,15 @@
 
 ### 前提条件
 
-- Node.js (v18以上)
-- pnpm
+- Node.js (v22) ※プロジェクトにより自動管理
+- pnpm (v10.12.4) ※プロジェクトにより自動管理
+
+> **バージョン管理**:
+>
+> - **Node.js**: `.npmrc` により v22.17.0 が自動ダウンロード・使用
+> - **pnpm**: `packageManager` フィールドにより v10.12.4 を推奨
+>
+> 開発者が手動でバージョンを管理する必要はありません。
 
 ### インストールと実行
 
@@ -46,9 +53,6 @@ cp .env.sample .env
 # OpenAPIスキーマからコードとモックを生成（初回またはスキーマ更新時）
 pnpm gen:api
 
-# MSWの初期化（初回のみ）
-pnpm msw:init
-
 # 開発サーバーの起動
 pnpm dev
 ```
@@ -59,7 +63,7 @@ pnpm dev
 
 ```
 src/
-├── adapters/           # 外部サービスとの接続層
+├── adapters/          # 外部サービスとの接続層
 │   ├── axios.ts       # HTTP クライアント設定
 │   ├── generated/     # OpenAPI から生成されたコード
 │   ├── mocks/         # MSW モック定義
@@ -125,12 +129,19 @@ pnpm test:watch
 
 # カバレッジ付きテスト実行
 pnpm test:coverage
+
+# 関連テストのみ実行（変更されたファイルに関連するテストを検出して実行）
+pnpm test:related src/path/to/changed-file.tsx
 ```
 
 ### テスト戦略
 
 - **単体テスト**: コンポーネント、フック、ユーティリティ関数のテスト
 - **統合テスト**: ページレベルでのユーザーインタラクションテスト
+- **関連テスト実行**: `test:related` コマンドによる効率的なテスト実行
+  - 変更されたファイルに関連するテストファイルのみを自動検出・実行
+  - CI/CD環境での高速なフィードバックループを実現
+  - 並列実行（shard）によるテスト時間の短縮
 - **モック戦略**:
   - MSW による API レスポンスのモック
   - Repository レベルでの部分的なモック
@@ -214,11 +225,15 @@ pnpm msw:init
 ```bash
 pnpm dev           # 開発サーバー起動
 pnpm build         # プロダクションビルド
+pnpm type-check    # 型チェック
 pnpm lint          # ESLint実行
+pnpm format:check  # Prettierによるフォーマットチェック（チェックのみ）
+pnpm format:fix    # Prettierによるコードフォーマット（コードを自動整形）
 pnpm preview       # ビルド結果をプレビュー
 pnpm test          # テスト実行
 pnpm test:run      # watch モードなしで実行
 pnpm test:coverage # カバレッジ付きテスト
+pnpm test:related  # 関連テストのみ実行（指定ファイルに関連するテストを検出）
 pnpm gen:api       # OpenAPIからコードとモックを生成
 pnpm msw:init      # MSW Service Worker初期化
 ```

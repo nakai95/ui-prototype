@@ -26,14 +26,22 @@
     "url": "https://github.com/nakai95/ui-prototype/issues"
   },
   "type": "module",
+  "packageManager": "pnpm@10.12.4",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "type-check": "tsc --project tsconfig.app.json --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:related": "vitest related --run",
     "gen:api": "orval --config ./schema/orval.config.ts",
     "msw:init": "msw init public/ --save"
   },
