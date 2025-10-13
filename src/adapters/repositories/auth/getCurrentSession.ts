@@ -11,7 +11,7 @@ export type GetCurrentSession = () => Promise<AuthSession>;
  */
 export const getCurrentSession: GetCurrentSession =
   async (): Promise<AuthSession> => {
-    const { data } = await getSessionApi();
+    const data = await getSessionApi();
 
     return {
       user: {

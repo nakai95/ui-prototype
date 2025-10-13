@@ -1,12 +1,11 @@
-import axios from 'axios';
-
 import { mockLogoutResponse } from '@/__fixtures__/auth';
+import { customInstance } from '@/adapters/axios';
 import { WebApiException } from '@/domain/errors';
 
 import { logoutUser } from '../logoutUser';
 
-vi.mock('axios');
-const mocked = vi.mocked(axios.post);
+vi.mock('@/adapters/axios');
+const mocked = vi.mocked(customInstance);
 
 describe('logoutUser', () => {
   describe('正常系', () => {

@@ -1,26 +1,28 @@
-import axios from 'axios';
-
 import {
   mockSessionResponse,
   mockSessionResponseVariations,
 } from '@/__fixtures__/auth';
+import { customInstance } from '@/adapters/axios';
 import { WebApiException } from '@/domain/errors';
 
 import { getCurrentSession } from '../getCurrentSession';
 
-vi.mock('axios');
-const mocked = vi.mocked(axios.get);
+vi.mock('@/adapters/axios');
+const mocked = vi.mocked(customInstance);
 
 describe('getCurrentSession', () => {
   describe('正常系', () => {
     test.concurrent(
       '正常なレスポンスの場合、適切にAuthSessionに変換される',
       async () => {
-        mocked.mockResolvedValue({ status: 200, data: mockSessionResponse });
+        mocked.mockResolvedValue(mockSessionResponse);
 
         const r = await getCurrentSession();
 
-        expect(mocked).toHaveBeenCalledWith('/auth/session', undefined);
+        expect(mocked).toHaveBeenCalledWith({
+          method: 'GET',
+          url: '/auth/session',
+        });
         expect(r).toEqual({
           user: {
             id: mockSessionResponse.user.id,
@@ -38,10 +40,7 @@ describe('getCurrentSession', () => {
 
     test.concurrent('fullNameがnullの場合、nullが保持される', async () => {
       const mockData = mockSessionResponseVariations.withNullFullName();
-      mocked.mockResolvedValue({
-        status: 200,
-        data: mockData,
-      });
+      mocked.mockResolvedValue(mockData);
 
       const r = await getCurrentSession();
 
@@ -50,10 +49,7 @@ describe('getCurrentSession', () => {
 
     test.concurrent('fullNameがundefinedの場合、nullに変換される', async () => {
       const mockData = mockSessionResponseVariations.withUndefinedFullName();
-      mocked.mockResolvedValue({
-        status: 200,
-        data: mockData,
-      });
+      mocked.mockResolvedValue(mockData);
 
       const r = await getCurrentSession();
 
@@ -66,7 +62,7 @@ describe('getCurrentSession', () => {
         const testDate = '2025-06-17T12:00:00.000Z';
         const mockData = mockSessionResponseVariations.withCustomDate(testDate);
 
-        mocked.mockResolvedValue({ data: mockData });
+        mocked.mockResolvedValue(mockData);
 
         const r = await getCurrentSession();
 

@@ -1,36 +1,35 @@
-import axios from 'axios';
-
 import {
   mockLoginCredentials,
   mockLoginResponse,
   mockLoginResponseVariations,
 } from '@/__fixtures__/auth';
+import { customInstance } from '@/adapters/axios';
 import { WebApiException } from '@/domain/errors';
 
 import { loginUser } from '../loginUser';
 
-vi.mock('axios');
-const mocked = vi.mocked(axios.post);
+vi.mock('@/adapters/axios');
+const mocked = vi.mocked(customInstance);
 
 describe('loginUser', () => {
   describe('正常系', () => {
     test.concurrent(
       '正常なレスポンスの場合、適切にLoginResultに変換される',
       async () => {
-        mocked.mockResolvedValue({ data: mockLoginResponse });
+        mocked.mockResolvedValue(mockLoginResponse);
 
         const result = await loginUser(mockLoginCredentials);
 
-        expect(mocked).toHaveBeenCalledWith(
-          `/auth/login`,
-          {
-            email: mockLoginCredentials.email,
-            username: mockLoginCredentials.username,
-            password: mockLoginCredentials.password,
-            rememberMe: mockLoginCredentials.rememberMe,
-          },
-          undefined
-        );
+        expect(mocked).toHaveBeenCalledWith({
+          method: 'POST',
+          url: `/auth/login`,
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          data: new URLSearchParams([
+            ['email', mockLoginCredentials.email!],
+            ['password', mockLoginCredentials.password],
+            ['rememberMe', String(mockLoginCredentials.rememberMe)],
+          ]),
+        });
 
         expect(result).toEqual({
           message: mockLoginResponse.message,
@@ -54,7 +53,7 @@ describe('loginUser', () => {
 
     test.concurrent('fullNameがnullの場合、nullが保持される', async () => {
       const mockData = mockLoginResponseVariations.withNullFullName();
-      mocked.mockResolvedValue({ data: mockData });
+      mocked.mockResolvedValue(mockData);
 
       const result = await loginUser(mockLoginCredentials);
 
@@ -63,7 +62,7 @@ describe('loginUser', () => {
 
     test.concurrent('fullNameがundefinedの場合、nullに変換される', async () => {
       const mockData = mockLoginResponseVariations.withUndefinedFullName();
-      mocked.mockResolvedValue({ data: mockData });
+      mocked.mockResolvedValue(mockData);
 
       const result = await loginUser(mockLoginCredentials);
 
@@ -74,7 +73,7 @@ describe('loginUser', () => {
       'sessionInfoがundefinedの場合、undefinedが保持される',
       async () => {
         const mockData = mockLoginResponseVariations.withoutSessionInfo();
-        mocked.mockResolvedValue({ data: mockData });
+        mocked.mockResolvedValue(mockData);
 
         const result = await loginUser(mockLoginCredentials);
 
@@ -85,20 +84,20 @@ describe('loginUser', () => {
     test.concurrent('ユーザー名でのログインも正常に処理される', async () => {
       const usernameCredentials =
         mockLoginResponseVariations.withUsernameLogin();
-      mocked.mockResolvedValue({ data: mockLoginResponse });
+      mocked.mockResolvedValue(mockLoginResponse);
 
       const result = await loginUser(usernameCredentials);
 
-      expect(mocked).toHaveBeenCalledWith(
-        `/auth/login`,
-        {
-          email: undefined,
-          username: usernameCredentials.username,
-          password: usernameCredentials.password,
-          rememberMe: usernameCredentials.rememberMe,
-        },
-        undefined
-      );
+      expect(mocked).toHaveBeenCalledWith({
+        method: 'POST',
+        url: `/auth/login`,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        data: new URLSearchParams([
+          ['username', usernameCredentials.username!],
+          ['password', usernameCredentials.password],
+          ['rememberMe', String(usernameCredentials.rememberMe)],
+        ]),
+      });
 
       expect(result.message).toBe(mockLoginResponse.message);
       expect(result.session.user.username).toBe(

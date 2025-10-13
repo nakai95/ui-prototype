@@ -2,19 +2,16 @@ import axios from 'axios';
 
 import { NetworkException, WebApiException } from '@/domain/errors';
 
-import type { AxiosError } from 'axios';
+import type { AxiosError, AxiosRequestConfig } from 'axios';
 
-// Base URL設定 - 環境変数から取得、デフォルトは開発用
-axios.defaults.baseURL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-axios.defaults.paramsSerializer = { indexes: null };
-
-axios.interceptors.request.use((config) => {
-  config.withCredentials = true;
-  return config;
+const axiosClient = axios.create({
+  // Base URL設定 - 環境変数から取得、デフォルトは開発用
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  withCredentials: true,
+  paramsSerializer: { indexes: null },
 });
 
-axios.interceptors.response.use(null, (error: AxiosError) => {
+axiosClient.interceptors.response.use(null, (error: AxiosError) => {
   if (error.response) {
     throw new WebApiException(
       error.response.status,
@@ -26,4 +23,9 @@ axios.interceptors.response.use(null, (error: AxiosError) => {
   }
 });
 
-export default axios;
+export async function customInstance<T>(
+  config: AxiosRequestConfig
+): Promise<T> {
+  const { data } = await axiosClient(config);
+  return data;
+}

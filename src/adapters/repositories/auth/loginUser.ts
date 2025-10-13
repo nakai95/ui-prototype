@@ -13,7 +13,7 @@ export type LoginUser = (credentials: LoginCredentials) => Promise<LoginResult>;
 export const loginUser: LoginUser = async (
   credentials: LoginCredentials
 ): Promise<LoginResult> => {
-  const { data } = await loginUserApi({
+  const { data, message } = await loginUserApi({
     email: credentials.email,
     username: credentials.username,
     password: credentials.password,
@@ -21,18 +21,18 @@ export const loginUser: LoginUser = async (
   });
 
   return {
-    message: data.message,
+    message,
     session: {
       user: {
-        id: data.data.user.id,
-        username: data.data.user.username,
-        email: data.data.user.email,
-        fullName: data.data.user.fullName ?? null,
+        id: data.user.id,
+        username: data.user.username,
+        email: data.user.email,
+        fullName: data.user.fullName ?? null,
       },
-      sessionInfo: data.data.sessionInfo
+      sessionInfo: data.sessionInfo
         ? {
-            expiresAt: new Date(data.data.sessionInfo.expiresAt),
-            csrfToken: data.data.sessionInfo.csrfToken,
+            expiresAt: new Date(data.sessionInfo.expiresAt),
+            csrfToken: data.sessionInfo.csrfToken,
           }
         : undefined,
     },

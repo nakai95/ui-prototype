@@ -18,8 +18,8 @@ export const getCustomAuthAPIMock = () => {
     return new HttpResponse(JSON.stringify(getLoginUserResponseMock()), {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
-        'Content-Type': 'application/json',
-        'Set-Cookie':
+        'content-type': 'application/json',
+        'set-cookie':
           'session_id=abc123; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict',
       },
     });
@@ -32,8 +32,8 @@ export const getCustomAuthAPIMock = () => {
     return new HttpResponse(JSON.stringify(getLogoutUserResponseMock()), {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
-        'Content-Type': 'application/json',
-        'Set-Cookie':
+        'content-type': 'application/json',
+        'set-cookie':
           'session_id=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict',
       },
     });
@@ -52,15 +52,15 @@ export const getCustomAuthAPIMock = () => {
         JSON.stringify({ error: 'セッションがありません' }),
         {
           status: HTTP_STATUS_CLIENT_ERROR.UNAUTHORIZED,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'content-type': 'application/json' },
         }
       );
     }
     return new HttpResponse(JSON.stringify(getGetSessionResponseMock()), {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
-        'Content-Type': 'application/json',
-        'Set-Cookie':
+        'content-type': 'application/json',
+        'set-cookie':
           'session_id=abc123; Path=/;  Max-Age=86400; HttpOnly; SameSite=Strict',
       },
     });
