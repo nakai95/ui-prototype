@@ -1,2 +1,2 @@
-export { LoadingOverlay } from './LoadingOverlay';
-export { Logo } from './Logo';
+export * from './dialogs';
+export * from './forms';

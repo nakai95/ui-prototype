@@ -14,8 +14,7 @@ export const loginUser: LoginUser = async (
   credentials: LoginCredentials
 ): Promise<LoginResult> => {
   const { data, message } = await loginUserApi({
-    email: credentials.email,
-    username: credentials.username,
+    userId: credentials.userId,
     password: credentials.password,
     rememberMe: credentials.rememberMe,
   });

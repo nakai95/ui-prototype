@@ -1,5 +1,14 @@
-import type { SessionResponse, LoginResponse, LogoutResponse } from '@/adapters/generated/auth';
-import type { AuthSession, LoginCredentials, LoginResult, LogoutResult } from '@/domain/models/auth';
+import type {
+  SessionResponse,
+  LoginResponse,
+  LogoutResponse,
+} from '@/adapters/generated/auth';
+import type {
+  AuthSession,
+  LoginCredentials,
+  LoginResult,
+  LogoutResult,
+} from '@/domain/models/auth';
 
 // API レスポンス用のモックデータ
 export const mockSessionResponse: SessionResponse = {
@@ -56,7 +65,7 @@ export const mockSessionResponseVariations = {
 
 // ログイン用のモックデータ
 export const mockLoginCredentials: LoginCredentials = {
-  email: 'test@example.com',
+  userId: 'test@example.com',
   password: 'password123',
   rememberMe: true,
 };
@@ -132,7 +141,7 @@ export const mockLoginResponseVariations = {
     },
   }),
   withUsernameLogin: (): LoginCredentials => ({
-    username: 'testuser',
+    userId: 'testuser',
     password: 'password123',
     rememberMe: false,
   }),

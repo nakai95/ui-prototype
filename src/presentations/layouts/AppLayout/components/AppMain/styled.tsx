@@ -1,35 +1,27 @@
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import type React from 'react';
+
+import Box, { type BoxProps } from '@mui/material/Box';
+import Container, { type ContainerProps } from '@mui/material/Container';
 import { styled } from '@mui/material/styles';
 
-import type { BoxProps } from '@mui/material/Box';
-
-interface MainProps extends BoxProps {
-  drawerOpen: boolean;
-  drawerWidth: number;
-}
-
-export const Main = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth',
-})<MainProps>(({ theme, drawerOpen, drawerWidth }) => ({
+export const Main: React.FC<BoxProps> = styled(Box)<BoxProps>(({ theme }) => ({
   flexGrow: 1,
   height: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: drawerOpen ? 0 : `-${drawerWidth}px`,
+  overflow: 'hidden', // 画面全体の横スクロールを防ぐ
+  minWidth: 0, // flex shrinkingを許可
+  backgroundColor: theme.palette.action.hover,
 }));
 
-export const ContentArea = styled(Box)(({ theme }) => ({
+export const ContentArea: React.FC<BoxProps> = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   paddingTop: theme.spacing(3),
-  backgroundColor: theme.palette.action.hover,
-  marginRight: theme.spacing(2),
-  marginLeft: theme.spacing(2),
-  borderRadius: theme.spacing(2),
+  paddingBottom: theme.spacing(3),
+  overflow: 'auto', // コンテンツエリア内でスクロール
+  minWidth: 0, // flex shrinkingを許可
 }));
 
-export const PageContainer = styled(Container)(() => ({}));
+export const PageContainer: React.FC<ContainerProps> = styled(Container)(
+  () => ({})
+);

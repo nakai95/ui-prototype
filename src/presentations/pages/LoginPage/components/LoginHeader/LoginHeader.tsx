@@ -3,9 +3,9 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 
 import { useTypedTranslation } from '@/i18n';
-import { Logo } from '@/presentations/components';
+import { Logo } from '@/presentations/ui';
 
-import * as S from '../../styled';
+import * as S from './styled';
 
 /**
  * ログインページのヘッダー部分（ロゴ、タイトル、サブタイトル）

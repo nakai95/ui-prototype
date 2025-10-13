@@ -1,14 +1,15 @@
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 
 import { RepositoryTestWrapper } from '@/__fixtures__/testWrappers';
 import { i18n } from '@/i18n/config';
 
+import {
+  clickLoginButton,
+  fillLoginForm,
+} from '../components/LoginForm/__tests__/testHelpers';
 import { LoginPage } from '../LoginPage';
-
-import { fillLoginForm } from './loginTestHelpers';
 
 describe('LoginPage', () => {
   const mockLoginUser = vi.fn();
@@ -45,21 +46,18 @@ describe('LoginPage', () => {
   });
 
   test('ログインが成功すると、ホームページにリダイレクトされる', async () => {
-    const user = userEvent.setup();
-
-    const r = renderWithRouter();
+    renderWithRouter();
 
     await fillLoginForm({
-      email: 'testuser@example.com',
+      userId: 'testuser@example.com',
       password: 'password123',
       rememberMe: false,
     });
 
-    const loginButton = r.getByRole('button', { name: 'ログイン' });
-    await user.click(loginButton);
+    await clickLoginButton();
 
     expect(mockLoginUser).toHaveBeenCalledWith({
-      email: 'testuser@example.com',
+      userId: 'testuser@example.com',
       password: 'password123',
       rememberMe: false,
     });

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Navigate, useLocation } from 'react-router-dom';
-
 import { useGetCurrentSessionQuery } from '@/presentations/hooks/queries';
 
 interface AuthCheckerProps {
@@ -12,13 +10,8 @@ interface AuthCheckerProps {
  * 認証状態をチェックする内部コンポーネント
  */
 export const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
-  const location = useLocation();
-  const { data: session } = useGetCurrentSessionQuery();
-
-  // セッションが存在しない場合はログインページにリダイレクト
-  if (!session) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  // セッションが存在しない場合は SpaException をスロー
+  useGetCurrentSessionQuery();
 
   // 認証済みの場合は子コンポーネントを表示
   return <>{children}</>;

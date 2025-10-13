@@ -10,7 +10,7 @@ export type LogoutUser = () => Promise<LogoutResult>;
  * @returns ログアウト結果
  */
 export const logoutUser: LogoutUser = async (): Promise<LogoutResult> => {
-  const { data } = await logoutUserApi();
+  const data = await logoutUserApi();
 
   return {
     message: data.message,

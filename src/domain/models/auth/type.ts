@@ -1,6 +1,36 @@
+import z from 'zod';
+
+import { i18n } from '@/i18n/config';
+import { tKeys } from '@/i18n/hooks';
 /**
  * 認証関連のドメインモデル
  */
+
+/**
+ * ログイン認証情報のスキーマ
+ * @remarks
+ * - userIdとpasswordは必須
+ * - rememberMeはオプション
+ * @remarks
+ * - カスタムエラーメッセージは`error: () => i18n.t(tkeys.xxx.xxx)`の形式で記載
+ * - アロー関数にすることで、言語が変更されても追従できる
+ */
+export const loginCredentialsSchema = z.object({
+  userId: z.string().min(1, { error: () => i18n.t(tKeys.validations.require) }),
+  password: z
+    .string()
+    .min(1, { error: () => i18n.t(tKeys.validations.require) })
+    .min(8, { error: () => i18n.t(tKeys.validations.minLength, { min: 8 }) })
+    .max(36, {
+      error: () => i18n.t(tKeys.validations.maxLength, { max: 36 }),
+    }),
+  rememberMe: z.boolean().optional(),
+});
+
+/**
+ * ログイン認証情報の型
+ */
+export type LoginCredentials = z.infer<typeof loginCredentialsSchema>;
 
 export interface User {
   /** ユーザーID */
@@ -18,17 +48,6 @@ export interface SessionInfo {
   readonly expiresAt: Date;
   /** CSRF保護用トークン */
   readonly csrfToken?: string;
-}
-
-export interface LoginCredentials {
-  /** メールアドレス */
-  readonly email?: string;
-  /** ユーザー名 */
-  readonly username?: string;
-  /** パスワード */
-  readonly password: string;
-  /** セッション長期保持フラグ */
-  readonly rememberMe?: boolean;
 }
 
 export interface AuthSession {

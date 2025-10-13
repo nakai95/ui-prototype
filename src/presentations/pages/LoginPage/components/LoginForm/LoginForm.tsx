@@ -1,88 +1,108 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
+import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import type { LoginCredentials } from '@/domain/models/auth';
+import {
+  loginCredentialsSchema,
+  type LoginCredentials,
+} from '@/domain/models/auth';
 import { useTypedTranslation } from '@/i18n';
+import {
+  AppErrorDialog,
+  BooleanController,
+  StringController,
+} from '@/presentations/components';
+import { useLoginMutation } from '@/presentations/hooks/queries';
+import { FormButton, FormField } from '@/presentations/ui';
 
-import * as S from '../../styled';
-import { PasswordField } from '../PasswordField';
-
-import { useLoginForm } from './hooks';
-
-interface LoginFormProps {
-  onLoginClick: (credentials: LoginCredentials) => void;
-  isLoading?: boolean;
-}
+import { PasswordField } from './components';
+import * as S from './styled';
 
 /**
  * ログインフォーム
  */
-export const LoginForm: React.FC<LoginFormProps> = ({
-  onLoginClick,
-  isLoading = false,
-}) => {
+export const LoginForm: React.FC = () => {
   const { t, tKeys } = useTypedTranslation();
-  const {
-    email,
-    password,
-    rememberMe,
-    credentials,
-    handleChangeEmail,
-    handleChangePassword,
-    handleChangeRememberMe,
-  } = useLoginForm();
+  const { mutate, error, reset } = useLoginMutation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleLoginClick = () => {
-    onLoginClick(credentials);
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<LoginCredentials>({
+    resolver: zodResolver(loginCredentialsSchema),
+    defaultValues: {
+      userId: '',
+      password: '',
+      rememberMe: false,
+    },
+  });
+
+  const pathname = location.state?.from.pathname ?? '/';
+
+  const login = useCallback(
+    (credentials: LoginCredentials) => {
+      // ログイン処理を実行
+      mutate(credentials, {
+        onSuccess: () => {
+          // ログイン成功後、元のページまたはホームページにリダイレクト
+          void navigate(pathname, {
+            replace: true,
+          });
+        },
+      });
+    },
+    [pathname, mutate, navigate]
+  );
 
   return (
     <S.LoginFormContainer>
-      <S.FormField
-        fullWidth
-        label={t(tKeys.loginPage.form.email)}
-        placeholder={t(tKeys.loginPage.form.emailPlaceholder)}
-        type="email"
-        value={email}
-        onChange={(e) => handleChangeEmail(e.target.value)}
-        required
+      <StringController
+        name="userId"
+        control={control}
+        render={(props) => (
+          <FormField
+            {...props}
+            label={t(tKeys.loginPage.form.userId)}
+            size="medium"
+          />
+        )}
       />
-
-      <PasswordField value={password} onChange={handleChangePassword} />
-
+      <StringController
+        name="password"
+        control={control}
+        render={(props) => <PasswordField {...props} />}
+      />
       <S.FormFooter>
         <S.RememberMeSection>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={rememberMe}
-                onChange={(e) => handleChangeRememberMe(e.target.checked)}
-                color="primary"
+          <BooleanController
+            name="rememberMe"
+            control={control}
+            render={(props) => (
+              <FormControlLabel
+                control={<Checkbox {...props} />}
+                label={t(tKeys.loginPage.form.rememberMe)}
               />
-            }
-            label={t(tKeys.loginPage.form.rememberMe)}
+            )}
           />
         </S.RememberMeSection>
-
-        <S.LoginButton
-          fullWidth
-          variant="contained"
-          size="large"
-          onClick={handleLoginClick}
-          disabled={isLoading}
-        >
+        <FormButton disabled={isSubmitting} onClick={handleSubmit(login)}>
           {t(tKeys.loginPage.form.loginButton)}
-        </S.LoginButton>
-
+        </FormButton>
         <S.ForgotPasswordSection>
           <Link href="#" underline="hover" color="primary">
             {t(tKeys.loginPage.forgotPassword)}
           </Link>
         </S.ForgotPasswordSection>
       </S.FormFooter>
+      <AppErrorDialog error={error} onClose={reset} />
     </S.LoginFormContainer>
   );
 };

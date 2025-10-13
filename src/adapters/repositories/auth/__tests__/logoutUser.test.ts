@@ -12,7 +12,7 @@ describe('logoutUser', () => {
     test.concurrent(
       '正常なレスポンスの場合、適切にLogoutResultに変換される',
       async () => {
-        mocked.mockResolvedValue({ data: mockLogoutResponse, status: 200 });
+        mocked.mockResolvedValue(mockLogoutResponse);
 
         const result = await logoutUser();
 
@@ -26,7 +26,7 @@ describe('logoutUser', () => {
       const customResponse = {
         message: 'セッションが正常に終了されました',
       };
-      mocked.mockResolvedValue({ data: customResponse, status: 200 });
+      mocked.mockResolvedValue(customResponse);
 
       const result = await logoutUser();
 
@@ -37,7 +37,7 @@ describe('logoutUser', () => {
       const emptyMessageResponse = {
         message: '',
       };
-      mocked.mockResolvedValue({ data: emptyMessageResponse, status: 200 });
+      mocked.mockResolvedValue(emptyMessageResponse);
 
       const result = await logoutUser();
 

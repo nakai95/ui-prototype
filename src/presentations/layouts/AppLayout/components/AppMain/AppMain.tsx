@@ -5,18 +5,12 @@ import Toolbar from '@mui/material/Toolbar';
 import * as S from './styled';
 
 export interface AppContentsProps {
-  drawerOpen: boolean;
-  drawerWidth: number;
   children?: React.ReactNode;
 }
 
-export const AppMain: React.FC<AppContentsProps> = ({
-  children,
-  drawerOpen,
-  drawerWidth,
-}) => {
+export const AppMain: React.FC<AppContentsProps> = ({ children }) => {
   return (
-    <S.Main component="main" drawerOpen={drawerOpen} drawerWidth={drawerWidth}>
+    <S.Main component="main">
       <Toolbar />
       <S.ContentArea>
         <S.PageContainer>{children}</S.PageContainer>

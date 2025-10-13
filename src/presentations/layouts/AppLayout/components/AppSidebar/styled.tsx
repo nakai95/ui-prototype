@@ -1,43 +1,58 @@
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
+import Box, { type BoxProps } from '@mui/material/Box';
+import Drawer, { type DrawerProps } from '@mui/material/Drawer';
+import ListItem, { type ListItemProps } from '@mui/material/ListItem';
+import ListItemButton, {
+  type ListItemButtonProps,
+} from '@mui/material/ListItemButton';
 import { styled } from '@mui/material/styles';
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink, type NavLinkProps } from 'react-router-dom';
 
-export const SidebarDrawer = styled(Drawer, {
-  shouldForwardProp: (prop) => prop !== 'width',
-})<{ width: number }>(({ width }) => ({
-  width,
+export const SidebarDrawer: React.FC<DrawerProps> = styled(Drawer)(() => ({
   flexShrink: 0,
   '& .MuiDrawer-paper': {
-    width,
     boxSizing: 'border-box',
     border: 'none',
+    position: 'relative',
+    height: '100vh',
   },
-  [`@media (min-width: 900px)`]: {
+  ['@media (min-width: 900px)']: {
     flexShrink: 0,
   },
 }));
 
-export const SidebarContent = styled(Box)(() => ({
+export const SidebarContent: React.FC<BoxProps> = styled(Box)(() => ({
   overflow: 'auto',
   padding: 16,
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
 }));
 
-export const NavigationListItem = styled(ListItem)(({ theme }) => ({
-  marginBottom: theme.spacing(1),
-}));
+export const NavigationListItem: React.FC<ListItemProps> = styled(ListItem)(
+  ({ theme }) => ({
+    marginBottom: theme.spacing(1),
+  })
+);
 
-export const NavigationLink = styled(RouterLink)(() => ({
+export const NavigationLink: React.FC<NavLinkProps> = styled(NavLink)(() => ({
   textDecoration: 'none',
   color: 'inherit',
   display: 'block',
   width: '100%',
 }));
 
-export const NavigationButton = styled(ListItemButton, {
-  shouldForwardProp: (prop) => prop !== 'component',
-})(({ theme }) => ({
+export const NavigationButton: React.FC<ListItemButtonProps> = styled(
+  ListItemButton,
+  {
+    shouldForwardProp: (prop) => prop !== 'component',
+  }
+)(({ theme }) => ({
   borderRadius: theme.spacing(2),
+
+  '&.Mui-selected': {
+    color: theme.palette.primary.main,
+    '& .MuiSvgIcon-root': {
+      color: theme.palette.primary.main,
+    },
+  },
 }));

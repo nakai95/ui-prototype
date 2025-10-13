@@ -25,7 +25,7 @@ describe('loginUser', () => {
           url: `/auth/login`,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           data: new URLSearchParams([
-            ['email', mockLoginCredentials.email!],
+            ['userId', mockLoginCredentials.userId],
             ['password', mockLoginCredentials.password],
             ['rememberMe', String(mockLoginCredentials.rememberMe)],
           ]),
@@ -93,7 +93,7 @@ describe('loginUser', () => {
         url: `/auth/login`,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         data: new URLSearchParams([
-          ['username', usernameCredentials.username!],
+          ['userId', usernameCredentials.userId],
           ['password', usernameCredentials.password],
           ['rememberMe', String(usernameCredentials.rememberMe)],
         ]),

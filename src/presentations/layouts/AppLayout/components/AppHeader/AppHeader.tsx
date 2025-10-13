@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { Logo } from '@/presentations/components';
+import { Logo } from '@/presentations/ui';
 
 import { UserMenu } from './components';
 import * as S from './styled';
@@ -25,7 +25,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onMenuToggle }) => {
       <Toolbar>
         {/* Left Side */}
         <S.HeaderContent>
-          <IconButton edge="start" aria-label="menu" onClick={onMenuToggle}>
+          <IconButton
+            edge="start"
+            data-testid="toggleButton"
+            onClick={onMenuToggle}
+          >
             <MenuIcon />
           </IconButton>
 

@@ -12,10 +12,10 @@ import { AppSidebar } from '../AppSidebar';
 // useMenuItemsフックをモック
 vi.mock('@/presentations/layouts/AppLayout/hooks/useMenuItems');
 
-const renderAppSidebar = (initialRoute = '/', open = true, width = 240) => {
+const renderAppSidebar = (initialRoute = '/') => {
   return render(
     <MemoryRouter initialEntries={[initialRoute]}>
-      <AppSidebar open={open} width={width} />
+      <AppSidebar />
     </MemoryRouter>
   );
 };
@@ -74,28 +74,6 @@ describe('AppSidebar', () => {
       mockMenuItems.forEach((item) => {
         expect(getByText(item.text)).toBeInTheDocument();
       });
-    });
-
-    test('sidebar が閉じられている場合でも正しくレンダリングされる', async () => {
-      const mockMenuItems = [
-        { text: 'ダッシュボード', path: '/', icon: <DashboardIcon /> },
-      ];
-      vi.mocked(useMenuItems).mockReturnValue(mockMenuItems);
-
-      const { getByText } = renderAppSidebar('/', false);
-
-      expect(getByText('ダッシュボード')).toBeInTheDocument();
-    });
-
-    test('異なるwidthプロパティでも正しくレンダリングされる', async () => {
-      const mockMenuItems = [
-        { text: 'ダッシュボード', path: '/', icon: <DashboardIcon /> },
-      ];
-      vi.mocked(useMenuItems).mockReturnValue(mockMenuItems);
-
-      const { getByText } = renderAppSidebar('/', true, 300);
-
-      expect(getByText('ダッシュボード')).toBeInTheDocument();
     });
 
     test('特殊文字を含むメニューアイテムが正しく表示される', async () => {

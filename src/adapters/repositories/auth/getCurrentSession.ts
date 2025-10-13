@@ -20,11 +20,9 @@ export const getCurrentSession: GetCurrentSession =
         email: data.user.email,
         fullName: data.user.fullName ?? null,
       },
-      sessionInfo: data.sessionInfo
-        ? {
-            expiresAt: new Date(data.sessionInfo.expiresAt),
-            csrfToken: data.sessionInfo.csrfToken,
-          }
-        : undefined,
+      sessionInfo: {
+        expiresAt: new Date(data.sessionInfo.expiresAt),
+        csrfToken: data.sessionInfo.csrfToken,
+      },
     };
   };

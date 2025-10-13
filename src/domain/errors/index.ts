@@ -1,4 +1,4 @@
 export * from './ApplicationException';
-export * from './DomainMessageException';
+export * from './FatalException';
 export * from './NetworkException';
 export * from './WebApiException';

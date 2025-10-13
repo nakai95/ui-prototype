@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 
@@ -11,15 +11,19 @@ import {
   type OverrideRepositories,
 } from './testUtils';
 
+import type { QueryClient } from '@tanstack/react-query';
+
 /**
  * RepositoryProviderのモックを作成するヘルパーコンポーネント
  */
 export const RepositoryTestWrapper: React.FC<{
   override?: OverrideRepositories;
+  hasSuspense?: boolean;
+  queryClient?: QueryClient;
   children: React.ReactNode;
-}> = ({ override, children }) => {
-  // テスト用のqueryClientを作成
-  const queryClient = createTestQueryClient();
+}> = ({ override, hasSuspense = false, queryClient, children }) => {
+  // テスト用のqueryClientを作成（指定がない場合のみ）
+  const client = queryClient ?? createTestQueryClient();
 
   // repositoryCompositionをベースに、必要な部分だけをオーバーライドする
   const mergedRepositories = createMergedRepositories(
@@ -28,9 +32,15 @@ export const RepositoryTestWrapper: React.FC<{
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={client}>
       <RepositoryProvider repositories={mergedRepositories}>
-        {children}
+        {hasSuspense ? (
+          <Suspense fallback={<div data-testid="suspense">Loading...</div>}>
+            {children}
+          </Suspense>
+        ) : (
+          children
+        )}
       </RepositoryProvider>
     </QueryClientProvider>
   );
