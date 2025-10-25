@@ -32,6 +32,8 @@ src/adapters/generated/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/mcp.sample.json
+!.vscode/playwright-config.json
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo

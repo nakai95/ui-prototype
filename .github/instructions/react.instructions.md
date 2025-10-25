@@ -9,7 +9,7 @@ applyTo: '**/*.{ts,tsx}'
 - Props型は必ず`interface`で定義
 - カスタムフックによるロジック分離
 - MUIコンポーネントの個別インポート
-- 型安全なルーティング（ParamsGuard使用）
+- コンポーネントは`React.FC`を使用して型定義
 
 ## 📁 ファイル構成
 
@@ -73,18 +73,28 @@ const StyledComponent = styled(Box)(({ theme }) => ({
 }));
 ```
 
-## 🛡️ 型安全なルーティング
+## 🛡️ ルーティング
+
+React Router v7を使用。Protected Routeで認証が必要なページを保護。
 
 ```typescript
-// ParamsGuardの使用
-<Route
-  path="/folder/:folderId"
-  element={
-    <ParamsGuard normalizer={normalizeFolderParams}>
-      {(params) => <FolderPage folderId={params.folderId} />}
-    </ParamsGuard>
-  }
-/>
+// Protected Routeの使用例
+{
+  path: '/',
+  lazy: async () => ({
+    Component: () => (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
+  }),
+  children: [
+    {
+      index: true,
+      lazy: async () => ({ Component: HomePage }),
+    },
+  ],
+}
 ```
 
 ## 🌍 国際化

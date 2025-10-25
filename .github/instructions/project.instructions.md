@@ -9,8 +9,11 @@ applyTo: '**/*.{ts,tsx,js,jsx}'
 - React 19 + TypeScript + Vite + Material-UI (MUI)
 - アーキテクチャ: Clean Architecture + Domain Driven Design
 - 状態管理: TanStack Query (React Query)
-- ルーティング: React Router v6 + 型安全なParamsGuard
-- テスト: Vitest + React Testing Library
+- ルーティング: React Router v7
+- API: OpenAPI 3.1 + Orval (コード自動生成)
+- テスト: Vitest + React Testing Library + Playwright (E2E)
+- モック: MSW (Mock Service Worker)
+- 国際化: react-i18next
 - パッケージマネージャー: pnpm
 
 ## 📁 アーキテクチャ
@@ -32,13 +35,21 @@ applyTo: '**/*.{ts,tsx,js,jsx}'
 ## 🔍 開発時の確認コマンド
 
 ```bash
-# 新しいコンポーネント作成後の確認
-pnpm lint          # ESLintチェック
-pnpm test:related  # 関連テスト実行
+# 開発サーバー起動
+pnpm dev           # Vite開発サーバー起動 (http://localhost:5173)
 
-# 完全なチェック（コミット前推奨）
-pnpm format:fix    # Prettierによるコードフォーマット（コードを自動整形）
+# コード品質チェック
+pnpm lint          # ESLintチェック (警告0必須)
+pnpm format:fix    # Prettierによるコードフォーマット
+pnpm type-check    # TypeScriptの型チェック
+
+# テスト実行
+pnpm test:related  # 関連テスト実行
 pnpm test:coverage # カバレッジ付きテスト
+pnpm test:e2e      # E2Eテスト (Playwright)
+
+# APIコード生成
+pnpm gen:api       # OpenAPIスキーマからコード生成
 ```
 
 ## ✅ チェックリスト

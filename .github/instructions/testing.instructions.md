@@ -7,14 +7,18 @@ applyTo: '**/*.test.{ts,tsx}'
 ## 🧪 テスト実行コマンド
 
 ```bash
-# テスト実行
-pnpm test:run
+# 単体テスト (Vitest)
+pnpm test          # ウォッチモード
+pnpm test:run      # 1回実行
+pnpm test:coverage # カバレッジ付きテスト
+pnpm test:related  # 関連テストのみ実行
 
-# カバレッジ付きテスト
-pnpm test:coverage
-
-# 関連テストのみ実行
-pnpm test:related
+# E2Eテスト (Playwright)
+pnpm test:e2e              # E2Eテスト実行
+pnpm test:e2e:install      # Playwrightブラウザインストール (初回のみ)
+pnpm test:e2e:debug        # デバッグモード
+pnpm test:e2e:ui           # UIモード
+pnpm test:e2e:report       # レポート表示
 ```
 
 ## 📝 テストの書き方
@@ -137,4 +141,72 @@ await user.hover(element);
 
 // フォーカス移動
 await user.tab(); // Tab キーでフォーカス移動
+```
+
+## 🎭 E2Eテスト (Playwright)
+
+### 基本原則
+
+- **Page Object Model**: ページ操作をクラスに抽象化
+- **テスト仕様書**: マークダウンでテスト仕様を記述してから実装
+- **data-testid**: テスト用の要素識別には`data-testid`属性を使用
+- **独立性**: テスト間で状態を共有しない
+
+### ディレクトリ構造
+
+```
+playwright/
+├── tests/
+│   ├── pages/           # Page Objectクラス
+│   │   ├── BasePage.ts
+│   │   ├── LoginPage.ts
+│   │   └── DashboardPage.ts
+│   ├── fixtures/        # テストフィクスチャ
+│   │   └── testUsers.ts
+│   └── specs/           # テスト仕様とテストコード
+│       └── login/
+│           ├── login.spec.md    # テスト仕様書 (マークダウン)
+│           └── login.spec.ts    # テスト実装
+```
+
+### Page Objectの例
+
+```typescript
+// playwright/tests/pages/LoginPage.ts
+import { Page } from '@playwright/test';
+import { BasePage } from './BasePage';
+
+export class LoginPage extends BasePage {
+  constructor(page: Page) {
+    super(page);
+  }
+
+  async goto() {
+    await this.page.goto('/login');
+  }
+
+  async login(email: string, password: string) {
+    await this.page.fill('[data-testid="email-input"]', email);
+    await this.page.fill('[data-testid="password-input"]', password);
+    await this.page.click('[data-testid="login-button"]');
+  }
+}
+```
+
+### テストの例
+
+```typescript
+// playwright/tests/specs/login/login.spec.ts
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
+
+test.describe('ログイン', () => {
+  test('有効な認証情報でログインできること', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('user@example.com', 'password123');
+    
+    await expect(page).toHaveURL('/dashboard');
+  });
+});
 ```

@@ -9,6 +9,14 @@
         "--figma-api-key=<<your-figma-api-key>>",
         "--stdio"
       ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--config",
+        ".vscode/playwright-config.json"
+      ]
     }
   }
 }
