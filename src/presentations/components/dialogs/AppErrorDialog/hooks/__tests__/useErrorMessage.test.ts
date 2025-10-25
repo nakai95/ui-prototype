@@ -2,8 +2,13 @@ import { renderHook } from '@testing-library/react';
 
 import { HTTP_STATUS } from '@/domain/constants';
 import type { ApplicationException } from '@/domain/errors';
-import { FatalException } from '@/domain/errors';
-import { NetworkException, WebApiException } from '@/domain/errors';
+import {
+  AuthException,
+  AuthErrorCode,
+  FatalException,
+  NetworkException,
+  WebApiException,
+} from '@/domain/errors';
 import { i18n } from '@/i18n/config';
 
 import { useErrorMessage } from '../useErrorMessage';
@@ -71,6 +76,34 @@ describe('useErrorMessage', () => {
       expect(getMessage(error)).toBe(
         'ネットワークエラーが発生しました。ネットワーク接続をご確認ください。'
       );
+    }
+  );
+
+  test.concurrent.each([
+    {
+      code: AuthErrorCode.INVALID_CREDENTIALS,
+      message:
+        'メールアドレス（またはユーザー名）またはパスワードが正しくありません。',
+    },
+    {
+      code: AuthErrorCode.NO_SESSION,
+      message: 'セッションが存在しません。再度ログインしてください。',
+    },
+    {
+      code: AuthErrorCode.SESSION_EXPIRED,
+      message: 'セッションの有効期限が切れました。再度ログインしてください。',
+    },
+    {
+      code: AuthErrorCode.NETWORK_ERROR,
+      message:
+        '認証サーバーとの通信に失敗しました。しばらく時間をおいてから再度お試しください。',
+    },
+  ])(
+    'AuthException($code)の場合に適切なメッセージを返すこと',
+    ({ code, message }) => {
+      const error = new AuthException(code, 401, 'Auth Error');
+
+      expect(getMessage(error)).toBe(message);
     }
   );
 

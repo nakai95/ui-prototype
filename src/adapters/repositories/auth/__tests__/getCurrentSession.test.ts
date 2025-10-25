@@ -3,7 +3,7 @@ import {
   mockSessionResponseVariations,
 } from '@/__fixtures__/auth';
 import { customInstance } from '@/adapters/axios';
-import { WebApiException } from '@/domain/errors';
+import { AuthException, WebApiException } from '@/domain/errors';
 
 import { getCurrentSession } from '../getCurrentSession';
 
@@ -72,13 +72,13 @@ describe('getCurrentSession', () => {
     );
   });
   describe('準正常系', () => {
-    test.concurrent('errorはそのままthrowされる', async () => {
+    test.concurrent('401エラーでAuthExceptionがthrowされる', async () => {
       const unauthorizedError = new WebApiException(401, 'Unauthorized', {
         message: 'Session expired',
       });
       mocked.mockRejectedValue(unauthorizedError);
 
-      await expect(getCurrentSession()).rejects.toThrowError(unauthorizedError);
+      await expect(getCurrentSession()).rejects.toThrow(AuthException);
     });
   });
 });

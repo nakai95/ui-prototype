@@ -165,7 +165,7 @@ playwright/
 │   │   └── testUsers.ts
 │   └── specs/           # テスト仕様とテストコード
 │       └── login/
-│           ├── login.spec.md    # テスト仕様書 (マークダウン)
+│           ├── login.md   　　　 # テスト仕様書 (マークダウン)
 │           └── login.spec.ts    # テスト実装
 ```
 
@@ -205,7 +205,7 @@ test.describe('ログイン', () => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
     await loginPage.login('user@example.com', 'password123');
-    
+
     await expect(page).toHaveURL('/dashboard');
   });
 });

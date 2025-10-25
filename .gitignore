@@ -80,3 +80,6 @@ public/mockServiceWorker.js
 /playwright/test-results/
 /playwright/playwright-report/
 /playwright/.env.local
+
+# Auto-generated Copilot instructions
+.github/copilot-instructions.md

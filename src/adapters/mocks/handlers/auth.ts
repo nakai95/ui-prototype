@@ -13,14 +13,36 @@ import {
 // 簡単なCookieサポートを追加した認証APIのモックハンドラーを返す関数
 export const getCustomAuthAPIMock = () => {
   // ログインハンドラーを拡張してSet-Cookieヘッダーを追加
-  const loginWithCookie = http.post('*/auth/login', async () => {
+  const loginWithCookie = http.post('*/auth/login', async ({ request }) => {
     await delay(1000);
+
+    // application/x-www-form-urlencodedのボディを取得
+    const formData = await request.formData();
+    const password = formData.get('password') as string;
+    const rememberMe = formData.get('rememberMe') === 'true';
+
+    // US2: 特定の無効なパスワード（wrong_password等）の場合のみエラーを返す
+    if (password === 'wrong_password') {
+      return new HttpResponse(
+        JSON.stringify({
+          error: 'ユーザー名またはパスワードが正しくありません',
+        }),
+        {
+          status: HTTP_STATUS_CLIENT_ERROR.UNAUTHORIZED,
+          headers: { 'content-type': 'application/json' },
+        }
+      );
+    }
+
+    // US5: rememberMeの値に応じてCookieの有効期限を変更
+    const maxAge = rememberMe ? 2592000 : 86400; // 30日 or 24時間
+    const cookieValue = `session_id=abc123; Path=/; Max-Age=${maxAge}; HttpOnly; SameSite=Strict`;
+
     return new HttpResponse(JSON.stringify(getLoginUserResponseMock()), {
       status: HTTP_STATUS_SUCCESS.OK,
       headers: {
         'content-type': 'application/json',
-        'set-cookie':
-          'session_id=abc123; Path=/; Max-Age=86400; HttpOnly; SameSite=Strict',
+        'set-cookie': cookieValue,
       },
     });
   });

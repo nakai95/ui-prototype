@@ -39,7 +39,7 @@ export const UserMenu: React.FC = () => {
 
   return (
     <>
-      <IconButton onClick={handleAvatarClick}>
+      <IconButton onClick={handleAvatarClick} data-testid="user-menu-button">
         <Avatar>OP</Avatar>
       </IconButton>
 
