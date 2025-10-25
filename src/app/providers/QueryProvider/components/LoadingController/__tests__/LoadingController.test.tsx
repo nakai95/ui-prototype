@@ -1,28 +1,30 @@
-import React, {Suspense} from 'react';
+import React, { Suspense } from 'react';
 
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {useQuery, useMutation, useSuspenseQuery} from '@tanstack/react-query';
-import {render, screen, waitFor} from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useQuery, useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { render, screen, waitFor } from '@testing-library/react';
 
-import {GLOBAL_LOADING} from '@/presentations/hooks/queries/constants';
+import { GLOBAL_LOADING } from '@/presentations/hooks/queries/constants';
 
-import {LoadingController} from '../LoadingController';
+import { LoadingController } from '../LoadingController';
 
 // テスト用のコンポーネント
 const TestQueryComponent: React.FC = () => {
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryKey: [GLOBAL_LOADING, 'test-query'],
     queryFn: () =>
-      new Promise<string>(resolve => setTimeout(() => resolve('data'), 100)),
+      new Promise<string>((resolve) => setTimeout(() => resolve('data'), 100)),
   });
 
   return <div>Query Result: {data || 'loading'}</div>;
 };
 
 const TestMutationComponent: React.FC = () => {
-  const {mutate, isPending} = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: () =>
-      new Promise<string>(resolve => setTimeout(() => resolve('success'), 100)),
+      new Promise<string>((resolve) =>
+        setTimeout(() => resolve('success'), 100)
+      ),
   });
 
   // 初回に1回実行
@@ -34,11 +36,11 @@ const TestMutationComponent: React.FC = () => {
 };
 
 const TestSuspenseQueryComponent: React.FC = () => {
-  const {data} = useSuspenseQuery({
+  const { data } = useSuspenseQuery({
     queryKey: [GLOBAL_LOADING, 'test-suspense-query'],
     queryFn: () =>
-      new Promise<string>(resolve =>
-        setTimeout(() => resolve('suspense-data'), 100),
+      new Promise<string>((resolve) =>
+        setTimeout(() => resolve('suspense-data'), 100)
       ),
   });
 
@@ -47,11 +49,11 @@ const TestSuspenseQueryComponent: React.FC = () => {
 
 // GLOBAL_LOADINGを含まないクエリ（ローディング表示されない）
 const TestNonGlobalLoadingQueryComponent: React.FC = () => {
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryKey: ['test-non-global-loading'],
     queryFn: () =>
-      new Promise<string>(resolve =>
-        setTimeout(() => resolve('non-global-data'), 100),
+      new Promise<string>((resolve) =>
+        setTimeout(() => resolve('non-global-data'), 100)
       ),
   });
 
@@ -60,11 +62,11 @@ const TestNonGlobalLoadingQueryComponent: React.FC = () => {
 
 // GLOBAL_LOADINGを含まないSuspenseクエリ（ローディング表示されない）
 const TestNonGlobalLoadingSuspenseQueryComponent: React.FC = () => {
-  const {data} = useSuspenseQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['test-non-global-suspense'],
     queryFn: () =>
-      new Promise<string>(resolve =>
-        setTimeout(() => resolve('non-global-suspense-data'), 100),
+      new Promise<string>((resolve) =>
+        setTimeout(() => resolve('non-global-suspense-data'), 100)
       ),
   });
 
@@ -95,7 +97,7 @@ describe('LoadingController', () => {
     return render(
       <QueryClientProvider client={queryClient}>
         <LoadingController>{children}</LoadingController>
-      </QueryClientProvider>,
+      </QueryClientProvider>
     );
   };
 
@@ -103,7 +105,7 @@ describe('LoadingController', () => {
     renderWithQueryClient(<div>No Requests</div>);
 
     const backdrop = screen.getByTestId('loading-overlay');
-    expect(backdrop).toHaveStyle({visibility: 'hidden'});
+    expect(backdrop).toHaveStyle({ visibility: 'hidden' });
   });
 
   describe('queryKeyにglobalLoadingがないqueryはローディングが表示されないこと', () => {
@@ -125,13 +127,13 @@ describe('LoadingController', () => {
       },
     ])(
       '$nameでローディングが表示されないこと',
-      async ({component, expectedText}) => {
+      async ({ component, expectedText }) => {
         renderWithQueryClient(component);
 
         const backdrop = screen.getByTestId('loading-overlay');
 
         // GLOBAL_LOADINGを含まないクエリはローディングオーバーレイが表示されない
-        expect(backdrop).toHaveStyle({visibility: 'hidden'});
+        expect(backdrop).toHaveStyle({ visibility: 'hidden' });
 
         // データ取得完了まで待機
         await waitFor(() => {
@@ -139,8 +141,8 @@ describe('LoadingController', () => {
         });
 
         // データ取得完了後もローディングオーバーレイは非表示のまま
-        expect(backdrop).toHaveStyle({visibility: 'hidden'});
-      },
+        expect(backdrop).toHaveStyle({ visibility: 'hidden' });
+      }
     );
   });
 
@@ -162,19 +164,19 @@ describe('LoadingController', () => {
           </Suspense>
         ),
       },
-    ])('$nameでローディング状態が正しく表示される', async ({component}) => {
+    ])('$nameでローディング状態が正しく表示される', async ({ component }) => {
       renderWithQueryClient(component);
 
       const backdrop = screen.getByTestId('loading-overlay');
 
       // ローディング中はLoadingOverlayが表示される
       await waitFor(() => {
-        expect(backdrop).not.toHaveStyle({visibility: 'hidden'});
+        expect(backdrop).not.toHaveStyle({ visibility: 'hidden' });
       });
 
       // ローディング完了後は非表示になる
       await waitFor(() => {
-        expect(backdrop).toHaveStyle({visibility: 'hidden'});
+        expect(backdrop).toHaveStyle({ visibility: 'hidden' });
       });
     });
   });

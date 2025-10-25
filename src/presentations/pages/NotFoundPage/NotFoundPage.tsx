@@ -2,15 +2,15 @@ import React from 'react';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HomeIcon from '@mui/icons-material/Home';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import {useTypedTranslation} from '@/i18n';
+import { useTypedTranslation } from '@/i18n';
 
 import * as S from './styled';
 
 export const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
-  const {t, tKeys} = useTypedTranslation();
+  const { t, tKeys } = useTypedTranslation();
 
   const handleGoHome = () => {
     void navigate('/');

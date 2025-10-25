@@ -1,1 +1,1 @@
-export {LoadingController} from './LoadingController';
+export { LoadingController } from './LoadingController';

@@ -1,5 +1,5 @@
-import {ApplicationException} from '../ApplicationException';
-import {NetworkException} from '../NetworkException';
+import { ApplicationException } from '../ApplicationException';
+import { NetworkException } from '../NetworkException';
 
 describe('NetworkException', () => {
   test.concurrent('ネットワークエラーメッセージが正しく設定されること', () => {

@@ -1,6 +1,6 @@
-import {renderHook, act} from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 
-import {useWindowSize} from '../useWindowSize';
+import { useWindowSize } from '../useWindowSize';
 
 // ウィンドウサイズをvi.stubGlobalでモック
 const mockWindowSize = (width: number, height: number) => {
@@ -19,14 +19,14 @@ describe('useWindowSize', () => {
   });
 
   test.concurrent('初期ウィンドウサイズが正しく取得されること', () => {
-    const {result} = renderHook(() => useWindowSize());
+    const { result } = renderHook(() => useWindowSize());
 
     expect(result.current.width).toBe(1024);
     expect(result.current.height).toBe(768);
   });
 
   test.concurrent('ウィンドウリサイズ時に値が更新されること', () => {
-    const {result} = renderHook(() => useWindowSize());
+    const { result } = renderHook(() => useWindowSize());
 
     // 初期値
     expect(result.current.width).toBe(1024);
@@ -44,7 +44,7 @@ describe('useWindowSize', () => {
   });
 
   test.concurrent('複数回のリサイズで正しく動作すること', () => {
-    const {result} = renderHook(() => useWindowSize());
+    const { result } = renderHook(() => useWindowSize());
 
     act(() => {
       // 1回目のリサイズ
@@ -64,7 +64,7 @@ describe('useWindowSize', () => {
   });
 
   test.concurrent('同じサイズでリサイズされても正しく動作すること', () => {
-    const {result} = renderHook(() => useWindowSize());
+    const { result } = renderHook(() => useWindowSize());
 
     const initialWidth = result.current.width;
     const initialHeight = result.current.height;

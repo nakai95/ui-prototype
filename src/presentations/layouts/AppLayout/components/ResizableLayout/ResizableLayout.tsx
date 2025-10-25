@@ -1,6 +1,6 @@
-import React, {useImperativeHandle, forwardRef, useCallback} from 'react';
+import React, { useImperativeHandle, forwardRef, useCallback } from 'react';
 
-import {useDrawer, useWindowSize} from './hooks';
+import { useDrawer, useWindowSize } from './hooks';
 import * as S from './styled';
 
 const DRAWER_MIN_WIDTH = 220;
@@ -18,24 +18,23 @@ export interface ResizableLayoutRef {
 export const ResizableLayout = forwardRef<
   ResizableLayoutRef,
   ResizableLayoutProps
->(({sidebarContent, children}, ref) => {
-  const {width: windowWidth} = useWindowSize();
+>(({ sidebarContent, children }, ref) => {
+  const { width: windowWidth } = useWindowSize();
   const drawerMaxWidth = Math.floor(windowWidth / 2);
 
-  const {drawerOpen, drawerWidth, toggleDrawer, handleResizeDrawer} = useDrawer(
-    {
+  const { drawerOpen, drawerWidth, toggleDrawer, handleResizeDrawer } =
+    useDrawer({
       minWidth: DRAWER_MIN_WIDTH,
       maxWidth: drawerMaxWidth,
       defaultWidth: DRAWER_DEFAULT_WIDTH,
-    },
-  );
+    });
 
   useImperativeHandle(
     ref,
     () => ({
       toggleDrawer,
     }),
-    [toggleDrawer],
+    [toggleDrawer]
   );
 
   const handleResizeStart = useCallback(
@@ -62,7 +61,7 @@ export const ResizableLayout = forwardRef<
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     },
-    [drawerWidth, handleResizeDrawer],
+    [drawerWidth, handleResizeDrawer]
   );
 
   return (

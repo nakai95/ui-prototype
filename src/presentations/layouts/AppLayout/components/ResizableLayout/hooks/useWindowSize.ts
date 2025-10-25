@@ -1,4 +1,4 @@
-import {useSyncExternalStore} from 'react';
+import { useSyncExternalStore } from 'react';
 
 type WindowSize = {
   width: number;
@@ -21,7 +21,7 @@ export const useWindowSize = (): WindowSize => {
   const width = useSyncExternalStore(subscribeWindowSizeChange, getWindowWidth);
   const height = useSyncExternalStore(
     subscribeWindowSizeChange,
-    getWindowHeight,
+    getWindowHeight
   );
-  return {width, height};
+  return { width, height };
 };

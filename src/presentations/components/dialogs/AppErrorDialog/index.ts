@@ -1,1 +1,1 @@
-export {AppErrorDialog} from './AppErrorDialog';
+export { AppErrorDialog } from './AppErrorDialog';

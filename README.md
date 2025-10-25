@@ -8,7 +8,7 @@
 
 - 🔐 **認証システム**: 認証とセッション管理
 - 🌍 **多言語対応**: 日本語・英語対応（react-i18next）
-- 🧪 **包括的テスト**: Vitest + React Testing Library
+- 🧪 **包括的テスト**: Vitest + React Testing Library + Playwright E2E
 - 🎭 **モックAPI**: MSW による開発時のAPIモック
 - 🎨 **Figma連携**: MCP サーバーによるデザインアセット取得
 - 📱 **レスポンシブデザイン**: モバイル・デスクトップ対応（そんなにできてない）
@@ -20,7 +20,7 @@
 - **Build Tool**: Vite
 - **State Management**: TanStack Query (React Query)
 - **Routing**: React Router
-- **Testing**: Vitest, React Testing Library
+- **Testing**: Vitest, React Testing Library, Playwright
 - **Mocking**: MSW (Mock Service Worker)
 - **Internationalization**: react-i18next
 - **Code Generation**: Orval (OpenAPI)
@@ -45,6 +45,9 @@
 ```bash
 # 依存関係のインストール
 pnpm install
+
+# E2Eテスト用ブラウザのインストール（初回のみ）
+pnpm test:e2e:install
 
 # 環境変数の設定（オプション）
 cp .env.sample .env
@@ -121,23 +124,28 @@ src/
 ### テスト実行
 
 ```bash
-# 全テスト実行
-pnpm test
+# 単体テスト（Vitest）
+pnpm test                # 全テスト実行
+pnpm test:watch          # ウォッチモード
+pnpm test:coverage       # カバレッジ付き実行
+pnpm test:related src/path/to/changed-file.tsx  # 関連テストのみ実行
 
-# ウォッチモードでテスト実行
-pnpm test:watch
-
-# カバレッジ付きテスト実行
-pnpm test:coverage
-
-# 関連テストのみ実行（変更されたファイルに関連するテストを検出して実行）
-pnpm test:related src/path/to/changed-file.tsx
+# E2Eテスト（Playwright）
+pnpm test:e2e:install    # ブラウザインストール（初回のみ）
+pnpm test:e2e            # 全E2Eテスト実行
+pnpm test:e2e:ui         # インタラクティブモード
+pnpm test:e2e:debug      # デバッグモード
 ```
+
+> **E2Eテストの詳細**: `playwright/README.md` を参照してください。
+>
+> **初回実行時**: `pnpm test:e2e:install` でPlaywrightブラウザ（Chromium、Firefox、WebKit）をインストールしてください。
 
 ### テスト戦略
 
 - **単体テスト**: コンポーネント、フック、ユーティリティ関数のテスト
 - **統合テスト**: ページレベルでのユーザーインタラクションテスト
+- **E2Eテスト**: Playwright による実際のブラウザでのエンドツーエンドテスト
 - **関連テスト実行**: `test:related` コマンドによる効率的なテスト実行
   - 変更されたファイルに関連するテストファイルのみを自動検出・実行
   - CI/CD環境での高速なフィードバックループを実現

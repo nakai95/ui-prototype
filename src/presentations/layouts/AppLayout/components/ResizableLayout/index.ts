@@ -1,1 +1,1 @@
-export {ResizableLayout, type ResizableLayoutRef} from './ResizableLayout';
+export { ResizableLayout, type ResizableLayoutRef } from './ResizableLayout';

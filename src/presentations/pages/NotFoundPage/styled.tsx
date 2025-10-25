@@ -1,15 +1,15 @@
 import type React from 'react';
 
-import Box, {type BoxProps} from '@mui/material/Box';
-import Button, {type ButtonProps} from '@mui/material/Button';
-import Container, {type ContainerProps} from '@mui/material/Container';
-import {alpha, styled} from '@mui/material/styles';
-import Typography, {type TypographyProps} from '@mui/material/Typography';
+import Box, { type BoxProps } from '@mui/material/Box';
+import Button, { type ButtonProps } from '@mui/material/Button';
+import Container, { type ContainerProps } from '@mui/material/Container';
+import { alpha, styled } from '@mui/material/styles';
+import Typography, { type TypographyProps } from '@mui/material/Typography';
 
 export const NotFoundContainer: React.FC<ContainerProps> = styled(Container)(
   () => ({
     maxWidth: 'md',
-  }),
+  })
 );
 
 export const ContentBox: React.FC<BoxProps> = styled(Box)(() => ({
@@ -28,7 +28,7 @@ export const ErrorIconContainer: React.FC<BoxProps> = styled(Box)(() => ({
 }));
 
 export const ErrorNumber: React.FC<TypographyProps> = styled(Typography)(
-  ({theme}) => ({
+  ({ theme }) => ({
     '&.MuiTypography-root': {
       ...theme.typography.h1,
       fontSize: '8rem',
@@ -40,22 +40,22 @@ export const ErrorNumber: React.FC<TypographyProps> = styled(Typography)(
         fontSize: '12rem',
       },
     },
-  }),
+  })
 );
 
 export const ErrorTitle: React.FC<TypographyProps> = styled(Typography)(
-  ({theme}) => ({
+  ({ theme }) => ({
     '&.MuiTypography-root': {
       ...theme.typography.h4,
       fontWeight: 700,
       color: theme.palette.text.primary,
       marginBottom: theme.spacing(2),
     },
-  }),
+  })
 );
 
 export const ErrorDescription: React.FC<TypographyProps> = styled(Typography)(
-  ({theme}) => ({
+  ({ theme }) => ({
     '&.MuiTypography-root': {
       ...theme.typography.body1,
       marginBottom: theme.spacing(4),
@@ -63,10 +63,10 @@ export const ErrorDescription: React.FC<TypographyProps> = styled(Typography)(
       lineHeight: 1.6,
       color: theme.palette.text.secondary,
     },
-  }),
+  })
 );
 
-export const ActionBox: React.FC<BoxProps> = styled(Box)(({theme}) => ({
+export const ActionBox: React.FC<BoxProps> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
@@ -107,7 +107,7 @@ export const BackButton: React.FC<ButtonProps> = styled(Button)(() => ({
 }));
 
 export const FloatingDecoration1: React.FC<BoxProps> = styled(Box)(
-  ({theme}) => ({
+  ({ theme }) => ({
     position: 'absolute',
     top: '20%',
     left: '10%',
@@ -116,19 +116,19 @@ export const FloatingDecoration1: React.FC<BoxProps> = styled(Box)(
     borderRadius: '50%',
     background: `linear-gradient(45deg, ${alpha(
       theme.palette.primary.main,
-      0.1,
+      0.1
     )}, ${alpha(theme.palette.secondary.main, 0.1)})`,
     zIndex: -1,
     animation: 'float 6s ease-in-out infinite',
     '@keyframes float': {
-      '0%, 100%': {transform: 'translateY(0px)'},
-      '50%': {transform: 'translateY(-20px)'},
+      '0%, 100%': { transform: 'translateY(0px)' },
+      '50%': { transform: 'translateY(-20px)' },
     },
-  }),
+  })
 );
 
 export const FloatingDecoration2: React.FC<BoxProps> = styled(Box)(
-  ({theme}) => ({
+  ({ theme }) => ({
     position: 'absolute',
     bottom: '30%',
     right: '15%',
@@ -137,9 +137,9 @@ export const FloatingDecoration2: React.FC<BoxProps> = styled(Box)(
     borderRadius: '50%',
     background: `linear-gradient(135deg, ${alpha(
       theme.palette.secondary.main,
-      0.1,
+      0.1
     )}, ${alpha(theme.palette.primary.main, 0.1)})`,
     zIndex: -1,
     animation: 'float 4s ease-in-out infinite 2s',
-  }),
+  })
 );

@@ -1,6 +1,6 @@
-import {act, renderHook} from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 
-import {useDrawer} from '../useDrawer';
+import { useDrawer } from '../useDrawer';
 
 describe('useDrawer', () => {
   const defaultOptions = {
@@ -10,7 +10,7 @@ describe('useDrawer', () => {
   };
 
   test.concurrent('初期値が正しく設定される', () => {
-    const {result} = renderHook(() => useDrawer(defaultOptions));
+    const { result } = renderHook(() => useDrawer(defaultOptions));
 
     expect(result.current.drawerOpen).toBe(true);
     expect(result.current.drawerWidth).toBe(240);
@@ -18,7 +18,7 @@ describe('useDrawer', () => {
 
   describe('toggleDrawer', () => {
     test.concurrent('ドロワーの開閉状態が切り替わる', () => {
-      const {result} = renderHook(() => useDrawer(defaultOptions));
+      const { result } = renderHook(() => useDrawer(defaultOptions));
 
       // 初期状態は開いている
       expect(result.current.drawerOpen).toBe(true);
@@ -39,7 +39,7 @@ describe('useDrawer', () => {
 
   describe('handleResizeDrawer', () => {
     test.concurrent('範囲内の値の時は幅が更新される', () => {
-      const {result} = renderHook(() => useDrawer(defaultOptions));
+      const { result } = renderHook(() => useDrawer(defaultOptions));
 
       // 範囲内の値
       act(() => {
@@ -49,7 +49,7 @@ describe('useDrawer', () => {
     });
 
     test.concurrent('範囲外の値が無視される', () => {
-      const {result} = renderHook(() => useDrawer(defaultOptions));
+      const { result } = renderHook(() => useDrawer(defaultOptions));
 
       const initialWidth = result.current.drawerWidth;
 
@@ -66,7 +66,7 @@ describe('useDrawer', () => {
       expect(result.current.drawerWidth).toBe(initialWidth); // 変更されない
     });
     test.concurrent('minWidthとmaxWidthの境界値で正しく動作すること', () => {
-      const {result} = renderHook(() => useDrawer(defaultOptions));
+      const { result } = renderHook(() => useDrawer(defaultOptions));
 
       // 最小値ちょうど
       act(() => {
@@ -95,7 +95,7 @@ describe('useDrawer', () => {
   });
 
   test.concurrent('maxWidthが変更された時に現在の幅が調整されること', () => {
-    const {result, rerender} = renderHook(props => useDrawer(props), {
+    const { result, rerender } = renderHook((props) => useDrawer(props), {
       initialProps: defaultOptions,
     });
 

@@ -1,10 +1,10 @@
-import {render, fireEvent} from '@testing-library/react';
-import {BrowserRouter} from 'react-router-dom';
+import { render, fireEvent } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
-import {RepositoryTestWrapper} from '@/__fixtures__/testWrappers';
-import {i18n} from '@/i18n/config';
+import { RepositoryTestWrapper } from '@/__fixtures__/testWrappers';
+import { i18n } from '@/i18n/config';
 
-import {NotFoundPage} from '../NotFoundPage';
+import { NotFoundPage } from '../NotFoundPage';
 
 // モックナビゲーション
 const mockNavigate = vi.fn();
@@ -23,7 +23,7 @@ describe('NotFoundPage', () => {
         <BrowserRouter>
           <NotFoundPage />
         </BrowserRouter>
-      </RepositoryTestWrapper>,
+      </RepositoryTestWrapper>
     );
   };
   beforeEach(async () => {
@@ -39,15 +39,15 @@ describe('NotFoundPage', () => {
       expect(r.getByText('ページが見つかりません')).toBeInTheDocument();
       expect(
         r.getByText(
-          /お探しのページは削除されたか、一時的にアクセスできない状態です/,
-        ),
+          /お探しのページは削除されたか、一時的にアクセスできない状態です/
+        )
       ).toBeInTheDocument();
     });
 
     test('ホームボタンが表示されること', () => {
       const r = renderNotFoundPage();
 
-      const homeButton = r.getByRole('button', {name: /ホームに戻る/});
+      const homeButton = r.getByRole('button', { name: /ホームに戻る/ });
       expect(homeButton).toBeInTheDocument();
     });
 
@@ -65,7 +65,7 @@ describe('NotFoundPage', () => {
     test('ホームボタンをクリックした時にホームページに遷移すること', () => {
       const r = renderNotFoundPage();
 
-      const homeButton = r.getByRole('button', {name: /ホームに戻る/});
+      const homeButton = r.getByRole('button', { name: /ホームに戻る/ });
       fireEvent.click(homeButton);
 
       expect(mockNavigate).toHaveBeenCalledWith('/');

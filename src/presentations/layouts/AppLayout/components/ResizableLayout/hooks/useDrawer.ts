@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface UseDrawerProps {
   minWidth: number;
@@ -22,7 +22,7 @@ export const useDrawer = ({
   const [drawerWidth, setDrawerWidth] = useState(defaultWidth);
 
   const toggleDrawer = useCallback(() => {
-    setDrawerOpen(prev => !prev);
+    setDrawerOpen((prev) => !prev);
   }, []);
 
   const handleResizeDrawer = useCallback(
@@ -32,13 +32,13 @@ export const useDrawer = ({
         setDrawerWidth(newWidth);
       }
     },
-    [minWidth, maxWidth],
+    [minWidth, maxWidth]
   );
 
   // maxWidthが変更された場合、現在の幅を調整
   useEffect(() => {
-    setDrawerWidth(currentWidth =>
-      currentWidth > maxWidth ? maxWidth : currentWidth,
+    setDrawerWidth((currentWidth) =>
+      currentWidth > maxWidth ? maxWidth : currentWidth
     );
   }, [maxWidth]);
 

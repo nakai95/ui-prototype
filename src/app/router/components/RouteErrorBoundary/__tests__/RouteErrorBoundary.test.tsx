@@ -1,16 +1,16 @@
-import {render, screen} from '@testing-library/react';
-import {userEvent} from '@testing-library/user-event';
-import {createMemoryRouter, RouterProvider} from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
-import {RepositoryTestWrapper} from '@/__fixtures__/testWrappers';
+import { RepositoryTestWrapper } from '@/__fixtures__/testWrappers';
 import {
   WebApiException,
   NetworkException,
   FatalException,
 } from '@/domain/errors';
-import {i18n} from '@/i18n/config';
+import { i18n } from '@/i18n/config';
 
-import {RouteErrorBoundary} from '../RouteErrorBoundary';
+import { RouteErrorBoundary } from '../RouteErrorBoundary';
 
 describe('RouteErrorBoundary', () => {
   const renderWithRouter = (element: React.ReactElement, path = '/') => {
@@ -22,13 +22,13 @@ describe('RouteErrorBoundary', () => {
           errorElement: <RouteErrorBoundary />,
         },
       ],
-      {initialEntries: [path]},
+      { initialEntries: [path] }
     );
 
     return render(
       <RepositoryTestWrapper>
         <RouterProvider router={router} />
-      </RepositoryTestWrapper>,
+      </RepositoryTestWrapper>
     );
   };
 
@@ -83,7 +83,7 @@ describe('RouteErrorBoundary', () => {
 
     expect(screen.getByTestId('crashPage')).toBeInTheDocument();
     expect(
-      screen.getByText(/ネットワーク接続に失敗しました/),
+      screen.getByText(/ネットワーク接続に失敗しました/)
     ).toBeInTheDocument();
   });
 
@@ -98,7 +98,7 @@ describe('RouteErrorBoundary', () => {
 
     expect(screen.getByTestId('crashPage')).toBeInTheDocument();
     expect(
-      screen.getByText(/致命的なエラーが発生しました/),
+      screen.getByText(/致命的なエラーが発生しました/)
     ).toBeInTheDocument();
   });
 

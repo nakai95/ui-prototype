@@ -1,4 +1,4 @@
-import {ApplicationException} from '../ApplicationException';
+import { ApplicationException } from '../ApplicationException';
 
 describe('ApplicationException', () => {
   test.concurrent('エラーメッセージとnameが正しく設定されること', () => {

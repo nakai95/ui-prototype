@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import {loadZodLocale} from '../zodLocale';
+import { loadZodLocale } from '../zodLocale';
 
 // ライブラリの機能はテスト不要なため、zodのconfigメソッドをモック化
 vi.mock('zod', async () => {

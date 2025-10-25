@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {useRouteError, isRouteErrorResponse} from 'react-router-dom';
+import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
 
-import {CrashPage} from '@/presentations/pages/CrashPage';
+import { CrashPage } from '@/presentations/pages/CrashPage';
 
 /**
  * React Routerのエラーを捕捉してCrashPageに渡すコンポーネント

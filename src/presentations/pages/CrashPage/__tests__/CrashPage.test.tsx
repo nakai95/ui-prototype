@@ -1,12 +1,12 @@
-import {render} from '@testing-library/react';
-import {userEvent} from '@testing-library/user-event';
-import {MemoryRouter} from 'react-router-dom';
+import { render } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 
-import {i18n} from '@/i18n/config';
+import { i18n } from '@/i18n/config';
 
-import {CrashPage} from '../CrashPage';
+import { CrashPage } from '../CrashPage';
 
-import type {RenderResult} from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
 
 describe('CrashPage', () => {
   const resetErrorBoundary = vi.fn();
@@ -17,7 +17,7 @@ describe('CrashPage', () => {
     render(
       <MemoryRouter>
         <CrashPage error={testError} resetErrorBoundary={resetErrorBoundary} />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
   let r: RenderResult;

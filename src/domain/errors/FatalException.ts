@@ -1,4 +1,4 @@
-import {ApplicationException} from './ApplicationException';
+import { ApplicationException } from './ApplicationException';
 
 /**
  * 致命的エラー

@@ -5,13 +5,13 @@ import {
   QueryClientProvider,
   useSuspenseQuery,
 } from '@tanstack/react-query';
-import {render, screen, waitFor} from '@testing-library/react';
-import {userEvent} from '@testing-library/user-event';
+import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
-import {HTTP_STATUS_CLIENT_ERROR} from '@/domain/constants';
-import {WebApiException} from '@/domain/errors';
+import { HTTP_STATUS_CLIENT_ERROR } from '@/domain/constants';
+import { WebApiException } from '@/domain/errors';
 
-import {PageWrapper} from '../PageWrapper';
+import { PageWrapper } from '../PageWrapper';
 
 // テスト用のWebApiExceptionを作成
 const appError = new WebApiException(
@@ -21,7 +21,7 @@ const appError = new WebApiException(
   {
     'x-spa-error-code': '-1',
     'x-spa-error-message': 'test_error_message',
-  },
+  }
 );
 
 // テスト用のコンポーネント
@@ -29,7 +29,7 @@ const TestComponent: React.FC = () => {
   return <div data-testid="test-content">Test Content</div>;
 };
 
-const TestComponentWithSuspenseQuery: React.FC<{error?: WebApiException}> = ({
+const TestComponentWithSuspenseQuery: React.FC<{ error?: WebApiException }> = ({
   error,
 }) => {
   useSuspenseQuery({
@@ -66,7 +66,7 @@ describe('PageWrapper', () => {
     return render(
       <QueryClientProvider client={queryClient}>
         <PageWrapper>{children}</PageWrapper>
-      </QueryClientProvider>,
+      </QueryClientProvider>
     );
   };
 
@@ -79,7 +79,7 @@ describe('PageWrapper', () => {
 
     test('useSuspenseQueryが成功した場合、コンテンツが表示されること', async () => {
       renderWithPageWrapper(
-        <TestComponentWithSuspenseQuery error={undefined} />,
+        <TestComponentWithSuspenseQuery error={undefined} />
       );
 
       await waitFor(() => {
@@ -91,7 +91,7 @@ describe('PageWrapper', () => {
   describe('エラー時の表示', () => {
     test('コンポーネントでエラーが発生した場合、AppErrorDialogが表示されること', async () => {
       renderWithPageWrapper(
-        <TestComponentWithSuspenseQuery error={appError} />,
+        <TestComponentWithSuspenseQuery error={appError} />
       );
 
       await waitFor(() => {
@@ -106,7 +106,7 @@ describe('PageWrapper', () => {
       const user = userEvent.setup();
 
       renderWithPageWrapper(
-        <TestComponentWithSuspenseQuery error={appError} />,
+        <TestComponentWithSuspenseQuery error={appError} />
       );
 
       // エラーダイアログが表示されるまで待機

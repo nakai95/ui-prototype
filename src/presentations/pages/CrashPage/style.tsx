@@ -1,8 +1,8 @@
 import type React from 'react';
 
-import Alert, {type AlertProps} from '@mui/material/Alert';
-import Box, {type BoxProps} from '@mui/material/Box';
-import {styled} from '@mui/material/styles';
+import Alert, { type AlertProps } from '@mui/material/Alert';
+import Box, { type BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 export const Root: React.FC<BoxProps> = styled(Box)(() => ({
   display: 'flex',
@@ -10,7 +10,7 @@ export const Root: React.FC<BoxProps> = styled(Box)(() => ({
   minHeight: '100vh',
 }));
 
-export const Main: React.FC<BoxProps> = styled(Box)(({theme}) => ({
+export const Main: React.FC<BoxProps> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -19,12 +19,12 @@ export const Main: React.FC<BoxProps> = styled(Box)(({theme}) => ({
   width: '100%',
 }));
 
-export const LogoArea: React.FC<BoxProps> = styled(Box)(({theme}) => ({
+export const LogoArea: React.FC<BoxProps> = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(2),
   marginBottom: theme.spacing(2),
 }));
 
-export const ContentArea: React.FC<BoxProps> = styled(Box)(({theme}) => ({
+export const ContentArea: React.FC<BoxProps> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -37,7 +37,9 @@ export const ContentArea: React.FC<BoxProps> = styled(Box)(({theme}) => ({
   maxWidth: 800,
 }));
 
-export const ErrorMessage: React.FC<AlertProps> = styled(Alert)(({theme}) => ({
-  margin: theme.spacing(3),
-  width: '100%',
-}));
+export const ErrorMessage: React.FC<AlertProps> = styled(Alert)(
+  ({ theme }) => ({
+    margin: theme.spacing(3),
+    width: '100%',
+  })
+);

@@ -1,4 +1,4 @@
-import { ApplicationException } from "./ApplicationException";
+import { ApplicationException } from './ApplicationException';
 
 /**
  * ネットワーク接続失敗エラー

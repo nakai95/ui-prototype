@@ -1,8 +1,8 @@
-import {FatalException} from '../FatalException';
+import { FatalException } from '../FatalException';
 
 describe('FatalException', () => {
   test.concurrent('正しいプロパティで例外が作成されること', () => {
-    const source = {id: 1, name: 'test'};
+    const source = { id: 1, name: 'test' };
     const message = '変換に失敗しました';
 
     const exception = new FatalException(message, source);

@@ -14,7 +14,7 @@ type ZodLocale = keyof typeof LOCALE_LOADERS;
 export async function loadZodLocale(locale: string) {
   const code = toZodLocaleCode(locale);
   const loader = LOCALE_LOADERS[code];
-  const {default: zodLocale} = await loader();
+  const { default: zodLocale } = await loader();
   z.config(zodLocale());
 }
 

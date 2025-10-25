@@ -1,1 +1,1 @@
-export {CrashPage} from './CrashPage';
+export { CrashPage } from './CrashPage';

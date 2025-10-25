@@ -1,7 +1,7 @@
 import type React from 'react';
 
-import Box, {type BoxProps} from '@mui/material/Box';
-import {styled} from '@mui/material/styles';
+import Box, { type BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 export const ResizableContainer: React.FC<BoxProps> = styled(Box)({
   display: 'flex',
@@ -16,8 +16,8 @@ interface SidebarWrapperProps {
 }
 
 export const SidebarWrapper: React.FC<BoxProps & SidebarWrapperProps> = styled(
-  Box,
-)<SidebarWrapperProps>(({theme, width, open}) => ({
+  Box
+)<SidebarWrapperProps>(({ theme, width, open }) => ({
   width,
   flexShrink: 0,
   overflow: 'hidden',
@@ -28,7 +28,7 @@ export const SidebarWrapper: React.FC<BoxProps & SidebarWrapperProps> = styled(
   marginLeft: open ? 0 : `-${width}px`,
 }));
 
-export const ResizeHandle: React.FC<BoxProps> = styled(Box)(({theme}) => ({
+export const ResizeHandle: React.FC<BoxProps> = styled(Box)(({ theme }) => ({
   position: 'relative',
   width: 4,
   backgroundColor: 'transparent',

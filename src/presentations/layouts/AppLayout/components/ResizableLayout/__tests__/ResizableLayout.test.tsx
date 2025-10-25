@@ -1,8 +1,8 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
 
-import {render, fireEvent} from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
-import {ResizableLayout, type ResizableLayoutRef} from '../ResizableLayout';
+import { ResizableLayout, type ResizableLayoutRef } from '../ResizableLayout';
 
 // ウィンドウサイズをvi.stubGlobalでモック
 const mockWindowSize = (width: number, height: number) => {
@@ -79,14 +79,14 @@ describe('ResizableLayout', () => {
       const resizeHandle = r.getByTestId('resizeHandle');
 
       // マウスダウンでドラッグ開始
-      fireEvent.mouseDown(resizeHandle, {clientX: 240});
+      fireEvent.mouseDown(resizeHandle, { clientX: 240 });
 
       // bodyのスタイルが設定されることを確認
       expect(document.body.style.cursor).toBe('col-resize');
       expect(document.body.style.userSelect).toBe('none');
 
       // マウス移動（ドラッグ）
-      fireEvent.mouseMove(document, {clientX: 300});
+      fireEvent.mouseMove(document, { clientX: 300 });
 
       // マウスアップでドラッグ終了
       fireEvent.mouseUp(document);
@@ -101,10 +101,10 @@ describe('ResizableLayout', () => {
       const resizeHandle = r.getByTestId('resizeHandle');
 
       // マウスダウンでドラッグ開始
-      fireEvent.mouseDown(resizeHandle, {clientX: 240});
+      fireEvent.mouseDown(resizeHandle, { clientX: 240 });
 
       // マウス移動（ドラッグ）
-      fireEvent.mouseMove(document, {clientX: 300});
+      fireEvent.mouseMove(document, { clientX: 300 });
 
       // sidebarとmainが表示されていることを確認
       expect(r.getByTestId('sidebarContent')).toBeInTheDocument();
