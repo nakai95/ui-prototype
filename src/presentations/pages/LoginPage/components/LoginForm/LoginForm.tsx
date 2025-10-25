@@ -63,7 +63,7 @@ export const LoginForm: React.FC = () => {
   );
 
   return (
-    <S.LoginFormContainer>
+    <S.LoginFormContainer onSubmit={handleSubmit(login)}>
       <StringController
         name="userId"
         control={control}
@@ -93,7 +93,7 @@ export const LoginForm: React.FC = () => {
             )}
           />
         </S.RememberMeSection>
-        <FormButton disabled={isSubmitting} onClick={handleSubmit(login)}>
+        <FormButton type="submit" disabled={isSubmitting}>
           {t(tKeys.loginPage.form.loginButton)}
         </FormButton>
         <S.ForgotPasswordSection>

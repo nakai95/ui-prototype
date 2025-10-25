@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 
 import { badRequestError } from '@/__fixtures__/errors';
@@ -18,7 +18,12 @@ import {
 describe('LoginForm', () => {
   const loginUser = vi.fn();
 
-  const renderLoginForm = () => {
+  const renderLoginForm = (
+    initialEntries?: {
+      pathname: string;
+      state?: { from?: { pathname: string } };
+    }[]
+  ) => {
     return render(
       <RepositoryTestWrapper
         override={{
@@ -27,8 +32,20 @@ describe('LoginForm', () => {
           },
         }}
       >
-        <MemoryRouter>
-          <LoginForm />
+        <MemoryRouter
+          initialEntries={initialEntries ? initialEntries : ['/login']}
+        >
+          <Routes>
+            <Route path="/login" element={<LoginForm />} />
+            <Route
+              path="/"
+              element={<div data-testid="home-page">Home Page</div>}
+            />
+            <Route
+              path="/dashboard"
+              element={<div data-testid="dashboard-page">Dashboard Page</div>}
+            />
+          </Routes>
         </MemoryRouter>
       </RepositoryTestWrapper>
     );
@@ -108,6 +125,65 @@ describe('LoginForm', () => {
       rememberMe: true,
     });
   });
+
+  describe('遷移先', () => {
+    test('通常はログイン後にルートに遷移する', async () => {
+      loginUser.mockResolvedValue({
+        userId: 'test@example.com',
+        sessionId: 'session123',
+      });
+
+      renderLoginForm();
+
+      // ログイン前: ホームページは表示されていない
+      expect(screen.queryByTestId('home-page')).not.toBeInTheDocument();
+
+      await fillLoginForm({
+        userId: 'test@example.com',
+        password: 'password123',
+        rememberMe: false,
+      });
+
+      await clickLoginButton();
+
+      // ログイン成功後、ルート (/) に遷移することを確認
+      await waitFor(() => {
+        expect(screen.getByTestId('home-page')).toBeInTheDocument();
+      });
+    });
+
+    test('stateに遷移元のパスが含まれる場合はログイン後にstate.from.pathnameに遷移する', async () => {
+      loginUser.mockResolvedValue({
+        userId: 'test@example.com',
+        sessionId: 'session123',
+      });
+
+      // location.state に from を含めて初期化
+      renderLoginForm([
+        {
+          pathname: '/login',
+          state: { from: { pathname: '/dashboard' } },
+        },
+      ]);
+
+      // ログイン前: ダッシュボードページは表示されていない
+      expect(screen.queryByTestId('dashboard-page')).not.toBeInTheDocument();
+
+      await fillLoginForm({
+        userId: 'test@example.com',
+        password: 'password123',
+        rememberMe: false,
+      });
+
+      await clickLoginButton();
+
+      // ログイン成功後、元のページ (/dashboard) に遷移することを確認
+      await waitFor(() => {
+        expect(screen.getByTestId('dashboard-page')).toBeInTheDocument();
+      });
+    });
+  });
+
   describe('エラーハンドリング', () => {
     beforeEach(async () => {
       loginUser.mockRejectedValue(badRequestError);
