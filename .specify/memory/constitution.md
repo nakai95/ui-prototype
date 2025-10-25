@@ -210,7 +210,7 @@ playwright/
 │   ├── fixtures/       # Test data and custom fixtures
 │   └── specs/
 │       └── [feature]/
-│           ├── [feature].spec.md    # Test specification
+│           ├── [feature].md  　　　  # Test specification
 │           └── [feature].spec.ts    # Test implementation
 ```
 

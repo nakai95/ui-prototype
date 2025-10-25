@@ -4,9 +4,8 @@ import {
   mockLoginResponseVariations,
 } from '@/__fixtures__/auth';
 import { customInstance } from '@/adapters/axios';
-import { WebApiException } from '@/domain/errors';
-
-import { loginUser } from '../loginUser';
+import { loginUser } from '@/adapters/repositories/auth/loginUser';
+import { AuthException, WebApiException } from '@/domain/errors';
 
 vi.mock('@/adapters/axios');
 const mocked = vi.mocked(customInstance);
@@ -107,14 +106,14 @@ describe('loginUser', () => {
   });
 
   describe('異常系', () => {
-    test.concurrent('errorはそのままthrowされる', async () => {
+    test.concurrent('401エラーでAuthExceptionがthrowされる', async () => {
       const unauthorizedError = new WebApiException(401, 'Unauthorized', {
         message: 'Invalid credentials',
       });
       mocked.mockRejectedValue(unauthorizedError);
 
-      await expect(loginUser(mockLoginCredentials)).rejects.toThrowError(
-        unauthorizedError
+      await expect(loginUser(mockLoginCredentials)).rejects.toThrow(
+        AuthException
       );
     });
   });

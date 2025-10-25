@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 
 import { HTTP_STATUS } from '@/domain/constants';
 import {
+  AuthException,
+  AuthErrorCode,
   NetworkException,
   WebApiException,
   type ApplicationException,
@@ -15,6 +17,20 @@ export const useErrorMessage = () => {
   const { t, tKeys } = useTypedTranslation();
   const toMessageFromError = useCallback(
     (error: ApplicationException): string => {
+      // AuthExceptionの場合、認証固有のメッセージを返す
+      if (error instanceof AuthException) {
+        switch (error.code) {
+          case AuthErrorCode.INVALID_CREDENTIALS:
+            return t(tKeys.errors.auth.invalidCredentials);
+          case AuthErrorCode.NO_SESSION:
+            return t(tKeys.errors.auth.noSession);
+          case AuthErrorCode.SESSION_EXPIRED:
+            return t(tKeys.errors.auth.sessionExpired);
+          case AuthErrorCode.NETWORK_ERROR:
+            return t(tKeys.errors.auth.networkError);
+        }
+      }
+
       if (error instanceof NetworkException) {
         return t(tKeys.errors.general.networkError);
       }

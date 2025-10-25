@@ -28,6 +28,13 @@ export const en = {
         'A network error has occurred. Please check your network connection.',
       unknownError: 'An unknown error has occurred.',
     },
+    auth: {
+      invalidCredentials: 'Invalid email address (or username) or password.',
+      noSession: 'Session does not exist. Please login again.',
+      sessionExpired: 'Session has expired. Please login again.',
+      networkError:
+        'Failed to communicate with authentication server. Please try again later.',
+    },
     http: {
       internalServerError:
         'The system is currently busy. Please try again later.',

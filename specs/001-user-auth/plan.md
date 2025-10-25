@@ -219,7 +219,7 @@ playwright/                          # E2Eテスト
 │   │   └── testUsers.ts             # テストユーザーデータ
 │   └── specs/
 │       └── auth/
-│           ├── login.spec.md        # ログインE2Eテスト仕様
+│           ├── login.md     　　　   # ログインE2Eテスト仕様
 │           └── login.spec.ts        # ログインE2Eテスト実装
 └── playwright.config.ts             # Playwright設定（既存）
 
@@ -276,8 +276,9 @@ schema/
   - US1 (6 tasks) marked as MVP target
   - E2E testing phase (6 tasks) for comprehensive coverage
   - Polish and final integration phases included
-  
+
 **Task Summary**:
+
 - **Total**: 48 tasks
 - **Critical Path**: Setup → Foundation (9) → US1 MVP (6) → US3 (4) → US4 (3) → E2E → Final
 - **Parallel Opportunities**: 15+ tasks can run in parallel

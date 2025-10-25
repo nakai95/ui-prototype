@@ -1,6 +1,6 @@
 import { mockLogoutResponse } from '@/__fixtures__/auth';
 import { customInstance } from '@/adapters/axios';
-import { WebApiException } from '@/domain/errors';
+import { AuthException, WebApiException } from '@/domain/errors';
 
 import { logoutUser } from '../logoutUser';
 
@@ -46,13 +46,13 @@ describe('logoutUser', () => {
   });
 
   describe('異常系', () => {
-    test.concurrent('errorはそのままthrowされる', async () => {
+    test.concurrent('401エラーでAuthExceptionがthrowされる', async () => {
       const unauthorizedError = new WebApiException(401, 'Unauthorized', {
         message: 'Session expired',
       });
       mocked.mockRejectedValue(unauthorizedError);
 
-      await expect(logoutUser()).rejects.toThrowError(unauthorizedError);
+      await expect(logoutUser()).rejects.toThrow(AuthException);
     });
   });
 });
