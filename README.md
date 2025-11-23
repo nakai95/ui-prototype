@@ -161,42 +161,43 @@ pnpm test:e2e:debug      # デバッグモード
 - `src/__tests__/`: アプリケーションレベルのテスト
 - 各ディレクトリの `__tests__/`: コンポーネント・フック単体のテスト
 
-## 🎨 Figma MCP (Model Context Protocol) 連携
+## 🔌 MCP (Model Context Protocol) 連携
 
-このプロジェクトでは、Figma MCP サーバーと連携して、デザインファイルから直接アセットを取得できます。
+このプロジェクトでは、MCP サーバーを使用して AI ツールと連携し、開発を効率化できます。
 
-### セットアップ
+### 設定ファイル
 
-1. **必要な設定ファイルの準備**
+プロジェクトでは2種類のMCP設定ファイルを使用します：
 
-`.vscode/mcp.sample.json` を参考に、あなたの設定に合わせて `.vscode/mcp.json` を作成してください：
+- **`.mcp.json`**: Claude Code プロジェクト単位の MCP 設定
+- **`.vscode/mcp.json`**: VSCode / GitHub Copilot 用の MCP 設定
+
+両方のファイルは同じ MCP サーバーを設定していますが、異なるツールで使用されます。
+
+### 利用可能なMCPサーバー
+
+#### 1. Figma MCP サーバー
+
+Figma デザインファイルから直接アセットを取得できます。
+
+**セットアップ:**
+
+Figma の Personal Access Token を設定に追加してください：
 
 ```json
 {
   "servers": {
-    "Framelink Figma MCP": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "figma-developer-mcp",
-        "--figma-api-key=<<your-figma-api-key>>",
-        "--stdio"
-      ]
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
     }
   }
 }
 ```
 
-2. **Figma Personal Access Token の設定**
+**利用方法:**
 
-Figma の Personal Access Token を環境変数または設定ファイルに設定してください。
-
-### 利用方法
-
-GitHub Copilot で Figma デザインからコンポーネントを実装：
-
-**使用例プロンプト:**
+AI ツールで Figma デザインからコンポーネントを実装：
 
 ```
 Figma URL: https://www.figma.com/file/YOUR_FILE_KEY/...
@@ -208,12 +209,52 @@ Figma URL: https://www.figma.com/file/YOUR_FILE_KEY/...
 - Figmaの色・サイズ・余白を反映
 ```
 
-このプロンプトにより、Figma デザインの情報を取得し、適切なスタイルコンポーネントとして実装されると思います。
+**利用可能な機能:**
 
-### 利用可能なMCP機能
+- Figma ファイルのレイアウト情報取得
+- Figma からの画像・アイコンダウンロード
 
-- `mcp_framelink_fig_get_figma_data`: Figma ファイルのレイアウト情報取得
-- `mcp_framelink_fig_download_figma_images`: Figma からの画像・アイコンダウンロード
+#### 2. Playwright MCP サーバー
+
+E2Eテストの自動生成とブラウザ操作を支援します。
+
+**セットアップ:**
+
+既に設定済みです。`.vscode/playwright-config.json` で設定をカスタマイズできます。
+
+```json
+{
+  "servers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "pnpm",
+      "args": [
+        "dlx",
+        "@playwright/mcp@latest",
+        "--config",
+        ".vscode/playwright-config.json"
+      ]
+    }
+  }
+}
+```
+
+**利用方法:**
+
+AI ツールで Playwright テストを生成・実行：
+
+```
+ログインページのE2Eテストを作成してください。
+- メールとパスワードを入力
+- ログインボタンをクリック
+- ダッシュボードにリダイレクトされることを確認
+```
+
+**利用可能な機能:**
+
+- Playwright テストコードの自動生成
+- ブラウザ操作のスクリプト作成支援
+- Page Object Model パターンの実装支援
 
 ## 🔧 開発ツール詳細
 
