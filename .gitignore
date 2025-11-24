@@ -31,7 +31,7 @@ src/adapters/generated/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-!.vscode/mcp.sample.json
+!.vscode/mcp.json
 !.vscode/playwright-config.json
 !.vscode/settings.json
 .idea/
@@ -80,6 +80,7 @@ public/mockServiceWorker.js
 /playwright/test-results/
 /playwright/playwright-report/
 /playwright/.env.local
+.playwright-mcp
 
 # Auto-generated Copilot instructions
 .github/copilot-instructions.md
